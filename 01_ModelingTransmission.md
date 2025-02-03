@@ -12,19 +12,21 @@ $$\displaystyle \lim_{\varepsilon \to 0} \frac{P(\text{transmit in } [t, t + \va
 
 ### Q: How would you simulate the probability and time of infection for a single susceptible contact?
 
-**Answer:** Sample $x \sim \text{Exp}(1)$. If $x < 2$, then the person is infected at time $x$. Otherwise, the person is not infected.
+**Answer:** Sample $x \sim \text{Exp}(1)$. If $x \lt  2$, then the person is infected at time $x$. Otherwise, the person is not infected.
 
 ### Q: How would you simulate a Poisson process with this same rate function?
 
-$$r(t) = \begin{cases}
+$$
+r(t) = \begin{cases}
 1, & t \in [0, 2] \\
 0, & \text{else}
-\end{cases}$$
+\end{cases}
+$$
 
 **Option 1:** First compute the number of events, then distribute in time.
 Sample from a $\text{Poisson}(2) \to n$. Then sample $n$ times uniformly in $[0, 2]$.
 
-*Intuition:* Case $n = 1$: We are assuming $x_1 < 2$ AND $x_1 + x_2 > 2$.
+*Intuition:* Case $n = 1$: We are assuming $x_1 \lt  2$ AND $x_1 + x_2 > 2$.
 
 **Option 2:** Iteratively sample $x_i \sim \text{Exp}(1)$. Then the times are $x_1, x_1 + x_2, x_1 + x_2 + x_3,\dots$ up to when they exceed 2.
 
@@ -69,7 +71,11 @@ In the real world we observe something between these two extremes.
 
 ### Example from History:
 We assumed there was a magic parameter $\alpha$ and that in a setting with $n$ people (total, including the source of infection), the rate of the total infectiousness process was:
-$$ \text{Intrinsic Infectiousness} \times (n - 1)^\alpha \quad \text{where} \quad 0 \leq \alpha \leq 1, $$
+
+$$
+\text{Intrinsic Infectiousness} \times (n - 1)^\alpha \quad \text{where} \quad 0 \leq \alpha \leq 1,
+$$
+
 which interpolates between the two options.
 
 
@@ -151,8 +157,8 @@ All people spend time in Home and Work according to some time schedule, potentia
 $$
 \text{intrinsic infectiousness} =
 \begin{cases}
-1, & 0 \leq t < 1 \\
-2, & 1 \leq t < 2 \\
+1, & 0 \leq t \lt  1 \\
+2, & 1 \leq t \lt  2 \\
 0, & t \geq 2
 \end{cases}
 $$
