@@ -20,7 +20,7 @@ P(a \lt X\lt b)=\int_a^bf_X(x) dx
 The CDF tells you probabilities on "half intervals" $`(\infty, x]`$. But it turns out that if you know probabilities on "half intervals," you know everything about the distribution itself. First, notice we automatically have probabilities on any interval $`(a, b)`$:
 
 ```math
-P(a\lt X\lt b)=\int_a^bf_X(x) dx=\int_{-\infty}^a f_X(x) dx-\int_{-\infty}^b f_X(x) dx=F_X(a)-F_X(b)
+P(a\lt X\lt b)=\int_a^bf_X(x) dx=\int_a^{-\infty}f_X(x) dx + \int_{-\infty}^{b}f_X(x) dx = \int_{-\infty}^{b}f_X(x) dx -  \int_{-\infty}^{a}f_X(x) dx =F_X(b)-F_X(a)
 ```
 
 **Observation:** We have $`F_X(x)- F_X(c)=\int_c^xf_X(t) dt`$. The Fundamental Theorem of Calculus says that $`\frac{d}{dx}\left[\int_c^xf_X(t) dt\right]=f_X(x)`$. So,
