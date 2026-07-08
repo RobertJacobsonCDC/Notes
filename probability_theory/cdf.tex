@@ -1,0 +1,33 @@
+\documentclass[tikz,border=6pt]{standalone}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[
+    width=9cm, height=7cm,
+    axis lines=left,
+    xlabel={}, ylabel={},
+    % xtick={0}, xticklabels={$x_0$},
+    ytick={0.5,1}, yticklabels={$\frac{1}{2}$,$1$},
+    ymin=0, ymax=1.08,
+    xmin=-6, xmax=6,
+    clip=false,
+    domain=-6:6, samples=100,
+]
+% The CDF curve
+\addplot[thick, green!55!black] {1/(1+exp(-x))};
+
+% Dashed lookup lines at x_0 = 0.85  (F(x_0) = 0.7005)
+\addplot[dashed, red] coordinates {(0.85,0) (0.85,0.7005)};
+\addplot[dashed, red] coordinates {(-6,0.7005) (0.85,0.7005)};
+\node[red, fill=red, circle, inner sep=1.3pt] at (axis cs:0.85,0.7005) {};
+
+% Labels
+\node[red, left] at (axis cs:-6,0.7005) {$F(x_0)$};
+\node[below] at (axis cs:0.85,0) {$x_0$};
+% \node[anchor=west, align=left, font=\footnotesize]
+%     at (axis cs:2.2,0.45)
+%     {The value of $X$ is at most\\ $x_0$ with probability $F(x_0)$.};
+\end{axis}
+\end{tikzpicture}
+\end{document}

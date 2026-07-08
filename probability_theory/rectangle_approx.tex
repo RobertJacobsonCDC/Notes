@@ -1,0 +1,47 @@
+\documentclass[tikz,border=6pt]{standalone}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{patterns}
+\usepackage{amsmath}
+\begin{document}
+
+% --- Adjustable parameters ---
+\def\xval{0.1}      % the point x
+\def\hval{0.75}       % the width h  (so x+h = \xval + \hval)
+\pgfmathsetmacro{\xph}{\xval + \hval}   % computes x+h numerically
+\pgfmathsetmacro{\fx}{1.05*exp(-\xval*\xval/3)}   % f(x), for the rectangle height
+
+\begin{tikzpicture}
+\begin{axis}[
+    width=9cm, height=6cm,
+    axis lines=left,
+    xlabel={}, ylabel={},
+    xtick={\xval,\xph}, xticklabels={$x$,$x+h$},
+    every tick label/.style={anchor=base west, yshift=-6pt, xshift=-6},
+    ytick=\empty,
+    ymin=0, ymax=1.25,
+    xmin=-3.6, xmax=3.6,
+    clip=false,
+    domain=-3.6:3.6, samples=150,
+    axis line style={-latex},
+]
+
+% The density curve f(x): a bump function
+\addplot[thick, green!55!black] {1.05*exp(-x^2/3)};
+
+% Shaded/hatched rectangle: width h = [x, x+h], height f(x), upper-left corner (x, f(x))
+\filldraw[pattern=north east lines, pattern color=blue!60, draw=black, thin]
+    (axis cs:\xval,0) rectangle (axis cs:\xph,{\fx});
+
+% Dashed lookup line at x, from axis up to the curve, and across to f(x)
+\draw[dashed, red] (axis cs:\xval,0) -- (axis cs:\xval,{\fx});
+\draw[dashed, red] (axis cs:-3.6,{\fx}) -- (axis cs:\xval,{\fx});
+\node[red, circle, fill=red, inner sep=1.3pt] at (axis cs:\xval,{\fx}) {};
+
+% Labels
+\node[red, left] at (axis cs:-3.6,{\fx}) {$f(x)$};
+\node[above] at (axis cs:0,1.15) {Graph of $f$};
+
+\end{axis}
+\end{tikzpicture}
+\end{document}
