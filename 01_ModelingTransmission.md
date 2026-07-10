@@ -14,7 +14,7 @@ This means:
 
 ### Q: How would you simulate the probability and time of infection for a single susceptible contact?
 
-**Answer:** Sample $`x \sim \text{Exp}(1)`$. If $`x \lt  2`$, then the person is infected at time $`x`$. Otherwise, the person is not infected.
+**Answer:** Sample $`\Delta t \sim \text{Exp}(1)`$. If $`\Delta t \lt  2`$, then the time between the infector becoming infected and this first infection is $`\Delta t`$. The person is infected at time $`\Delta t`$ after the infector was infected. Otherwise, the person is not infected.
 
 ### Q: How would you simulate a Poisson process with this same rate function?
 
@@ -26,14 +26,39 @@ r(t) = \begin{cases}
 ```
 
 **Option 1:** First compute the number of events, then distribute in time.
-Sample from a $`\text{Poisson}(2) \to n`$. Then sample $`n`$ times uniformly in $`[0, 2]`$.
+Sample from a $`\text{Poisson}(2) \to n`$. Then sample $`n`$ times uniformly in $`[0, 2]`$ to get the times for the events.
 
-*Intuition:* Case $`n = 1`$: We are assuming $`x_1 \lt  2`$ AND $`x_1 + x_2 > 2`$.
+*Intuition:* Case $`n = 1`$: We are assuming $`\Delta t_1 \lt  2`$ AND $`\Delta t_1 + \Delta t_2 > 2`$.
 
-**Option 2:** Iteratively sample $`x_i \sim \text{Exp}(1)`$. Then the times are $`x_1, x_1 + x_2, x_1 + x_2 + x_3,\dots`$ up to when they exceed 2.
+**Option 2:** Iteratively sample inter event times $`\Delta t_i \sim \text{Exp}(1)`$. Then the times are $`\Delta t_1, \Delta t_1 + \Delta t_2, \Delta t_1 + \Delta t_2 + \Delta t_3,\dots`$ up to when they exceed 2 (past which, our rate function says that no infection attempts are expected with a rate of 0).
+
+**Option 3**: Time scaling. We can sample the inter event times using the cumulative rate function $c(t)$. For rate function $r(t)$ (equivalent to the hazard function in this case)
+
+```math
+r(t) = \begin{cases}
+1, & t \in [0, 2] \\
+0, & \text{else}
+\end{cases}
+```
+
+the cumulative rate function $c(t)$ is
+
+```math
+c(t) = \begin{cases}
+t, & t \in [0, 2] \\
+2, & else
+\end{cases}
+```
+
+A true inverse function of $c(t)$ doesn't exist $\forall t \in [0, \infty)$, but over the interval $[0, 2]$ the inverse can be defined as $d(t)$ = t. Why? If $d(t) = t$, then $d(c(t)) = c(t) = t$ and similarly $c(d(t)) = d(t) = t$. 
+
+Recall that inter event distances in the cumulative space can be sampled as $\Delta y_i \sim \text{Exp(1)}$. Iteratively sample $\Delta y_i$. Then the points in cumulative space are $\Delta y_1, \Delta y_1 + \Delta y_2, \Delta y_1 + \Delta y_2 + \Delta y_3, ...$, up to when they exceed 2 (the maximum value of $c(t)$, past which there is no valid inverse function). We'll call these $y_i$. 
+
+Use $d(t)$ to map $y_i$ from the cumulative space back to the time space, i.e. $t_i = d(y_i)$. These are the forecasted times for infection events relative to the infection time of the infector. The inter event times can now be calculated as $\Delta t_i = t_i - t_{i-1}$.
 
 ### Observation:
 If we simulate from a Poisson process of rate $`r(t)`$, then the probability of having one event and the time of that event matches the intrinsic infectious process.
+
 
 ## Rejection Sampling and Time Scaling
 
@@ -51,12 +76,20 @@ What if the facemask isn’t perfect? Say it only prevents transmission 30% of t
 *Observation:*
 This 30% is not the reduction in the probability of infecting a single contact. It is the reduction in the probability of a single infection attempt succeeding.
 
-**Option 2:** When facemask time comes, you cancel the existing plan and schedule based on the new rate (of 0.7 up to time 2).
-The answer is to sample from $`\text{Exp}(1) / 0.7`$, which is equivalent to an Exponential distribution of rate 0.7 — this is referred to as "Time rescaling."
+
+**Option 2**: Time scaling. Rather than sampling inter event times iteratively directly as $x_i\sim \text{Exp(1)}$ and summing $x_i$ to get event times, let's sample the inter event distances in the cumulative space as $\Delta y_i \sim \text{Exp(1)}$.
+
+Then calculate $y_i = \Sigma_{i' = 1}^{i} \Delta y_{i'}$
+
+Each $y_i$ can be inverted with $d(t)$ to get $t_i = d(y_i)$. 
+
+Then the inter event times can be calculated as $\Delta t_i = t_i - t_{i-1}$, where $t_0 = 0$ for the time of the zeroeth event.
+
+When an event causes the rate function to change after some time $t^{*}$, rather than rejecting events after $t^{*}$ with probability $30\%$, instead we re-evaluate what each value $y_i$ in the cumulative space maps to in the time space for events $t_i$ scheduled to happen after $t^{*}$. Since the rate function has changed after $t^{*}$, for those events we calculate $t_i$ with the inverse of the new cumulative rate function, $t_i = d^{*}(y_i)$, and calculate the inter event times as $\Delta t_i = t_{i} - t_{i-1}$. Reschedule events with the new event times.
 
 *Observation:*
 If the person took an antiviral that changes their new infectiousness, you could assume this is the person’s new intrinsic infectiousness. Sometimes, you may *have* to:
-Imagine viral rebound. We have to reschedule if it *increases* future transmissibility.
+Imagine viral rebound. We have to reschedule if it *increases* future transmissibility. In this case, time scaling and forecasting events through the cumulative rate function is a straight forward approach. 
 
 ## Distributing Infection Hazard
 

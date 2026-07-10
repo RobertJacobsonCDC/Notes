@@ -119,7 +119,7 @@ This says that as a function of $`r`$, $`P(X>r)`$ is an exponential function of 
 
 # 0.2: Time Scaling
 
- - A Poisson process is **inhomogeneous** if the rate $`\lambda`$ is not constant over time.
+ #### A Poisson process is **inhomogeneous** if the rate $`\lambda`$ is not constant over time.
 
 If $`\lambda = \lambda(t)`$ is an integrable function and $`X ∼ \text{Exp}(\lambda)`$, then the PDF is $`f_X(t) = \lambda(t) e^{-\int_0^t \lambda(s) ds}`$, and the CDF is $`F_X(t) = 1 - e^{-\int_0^t \lambda(s) ds}`$. (Verify using the Fundamental Theorem of Calculus that $`F(t) = \int_0^tf(s) ds`$.) Let $`\Lambda(t)`$ be the cumulative rate function defined by
 
@@ -152,3 +152,64 @@ By the Fundamental Theorem of Calculus, $`\frac{d}{dy}\left[ \Lambda(y) \right] 
 The equality marked with a '$`\star`$' needs justification, because it's not true in general. If $`a \lt  b`$, what conditions on a function $`f`$ guarantee that $`f(a) \leq f(b)`$? If ($`\star`$) is to hold, $`\Lambda(t)`$ must satisfy those conditions.
 
 **Answer:** $`f(a) \leq f(b)`$ clearly holds if $`f`$ is monotonically increasing (by definition). Since $`\lambda(t)>0`$, $`\Lambda(t) := \int_0^t \lambda(s)  ds`$ is in fact positive and monotonically increasing.
+
+
+**Another proof:**
+
+Let $\lambda = \lambda(t)$ be some non-negative real-valued rate function of a Poisson point process, i.e. the hazard function. When $\lambda(t)$ is not constant, the Poisson point process is inhomogeneous. 
+
+Let $c(t)$ be the cumulative rate function, s.t.
+
+```math
+c(t) = \int_0^t r(s)ds 
+```
+With $\lambda(t)$ a non-negative real-valued function, the cumulative of this must always be monotonically increasing. 
+
+$\lambda(t)$ as the hazard function also satisfies the relationship,
+
+```math
+\lambda(t) = \frac{f(t)}{S(t)} = \frac{1}{S(t)} \frac{dF}{dt} = \frac{-1}{S(t)}\frac{dS}{dt} = -\frac{d}{dt}\Big(lnS(t)\Big)
+```
+
+Then 
+
+```math
+ln(S(t)) = -\int_0^t \lambda(s)ds = -c(t)
+```
+
+Therefore, we can write the survival function $S(t) = P(T > t)$ as
+
+```math
+S(t) = e^{-c(t)}
+```
+
+Now since $c(t)$ is a monotonically increasing function, this means that it is also invertible, i.e., there is a $d(t)$ s.t. $d(c(t)) = t$ and $c(d(t)) = t$.
+
+Therefore, $c(T) > y \Leftrightarrow T > d(y)$ since c(t) and d(t) uniquely map to each other. 
+
+Then
+
+```math
+P(c(T) > y) = P(T > d(y)) = S(d(y)) = e^{-c(d(y))} = e^{-y} = S^{*}(y)
+```
+
+where $S^{*}(y)$ is the survival function of events in the cumulative space. 
+
+This means that $c(T) = y \sim Exp(1)$, i.e. inter event distances in the cumulative space can be sampled with an exponential distribution of rate equal to $1$. 
+
+
+Now, what does this mean for us in terms of being able to sample the time to the next infection when the rate process is inhomogeneous?
+
+Since we can sample the inter event distances in the cumulative space with $\sim Exp(1)$, then we can get the cumulative values $y_i$ by summing the sampled inter event values $\Delta y_i$, and invert each $y_i$ with $d(y)$ to get the time for each event $t_i$. 
+
+Algorithmically, this means:
+
+1. Sample $\Delta y_i$ from $Exp(1)$
+2. Calculate $y_i$ as $y_i = \Sigma_{i' = 1}^i \Delta y_{i'} $
+3. Invert $y_i$ to get $t_i$ through $t_i = d(y_i)$
+4. Calculate the inter event times $\Delta t_i = t_i - t_{i-1}$
+
+where $\Delta t_1 = t_1 - t_0 = t_1 - 0 = t_1$ since the time of the zeroeth event would be 0.
+
+
+
