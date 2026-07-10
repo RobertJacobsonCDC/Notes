@@ -32,7 +32,7 @@ Sample from a $`\text{Poisson}(2) \to n`$. Then sample $`n`$ times uniformly in 
 
 **Option 2:** Iteratively sample inter event times $`\Delta t_i \sim \text{Exp}(1)`$. Then the times are $`\Delta t_1, \Delta t_1 + \Delta t_2, \Delta t_1 + \Delta t_2 + \Delta t_3,\dots`$ up to when they exceed 2 (past which, our rate function says that no infection attempts are expected with a rate of 0).
 
-**Option 3**: Time scaling. We can sample the inter event times using the cumulative rate function $c(t)$. For rate function (hazard function) $r(t)
+**Option 3**: Time scaling. We can sample the inter event times using the cumulative rate function $c(t)$. For rate function $r(t)$ (equivalent to the hazard function in this case)
 
 ```math
 r(t) = \begin{cases}
@@ -85,15 +85,11 @@ Each $y_i$ can be inverted with $d(t)$ to get $t_i = d(y_i)$.
 
 Then the inter event times can be calculated as $\Delta t_i = t_i - t_{i-1}$, where $t_0 = 0$ for the time of the zeroeth event.
 
-When an event causes the rate function to change after some time $t^{*}$, rather than rejecting events after $t^{*}$ with probability $30\%$, instead we would re-evaluate what each value $y_i$ maps to in the time space for events $t_i$ scheduled to happen after $t^{*}$ with the new rate function, and calculate the inter event times as $\Delta t_i = t_{i} - t_{i-1}$. 
-
-
-<!-- **Option 2:** When facemask time comes, you cancel the existing plan and schedule based on the new rate (of 0.7 up to time 2).
-The answer is to sample from $`\text{Exp}(1) / 0.7`$, which is equivalent to an Exponential distribution of rate 0.7 — this is referred to as "Time rescaling."
+When an event causes the rate function to change after some time $t^{*}$, rather than rejecting events after $t^{*}$ with probability $30\%$, instead we re-evaluate what each value $y_i$ in the cumulative space maps to in the time space for events $t_i$ scheduled to happen after $t^{*}$. Since the rate function has changed after $t^{*}$, for those events we calculate $t_i$ with the inverse of the new cumulative rate function, $t_i = d^{*}(y_i)$, and calculate the inter event times as $\Delta t_i = t_{i} - t_{i-1}$. Reschedule events with the new event times.
 
 *Observation:*
 If the person took an antiviral that changes their new infectiousness, you could assume this is the person’s new intrinsic infectiousness. Sometimes, you may *have* to:
-Imagine viral rebound. We have to reschedule if it *increases* future transmissibility. -->
+Imagine viral rebound. We have to reschedule if it *increases* future transmissibility. In this case, time scaling and forecasting events through the cumulative rate function is a straight forward approach. 
 
 ## Distributing Infection Hazard
 
