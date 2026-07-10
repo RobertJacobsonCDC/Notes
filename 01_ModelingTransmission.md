@@ -51,12 +51,24 @@ What if the facemask isn’t perfect? Say it only prevents transmission 30% of t
 *Observation:*
 This 30% is not the reduction in the probability of infecting a single contact. It is the reduction in the probability of a single infection attempt succeeding.
 
-**Option 2:** When facemask time comes, you cancel the existing plan and schedule based on the new rate (of 0.7 up to time 2).
+
+**Option 2**: Time scaling. Rather than sampling inter event times iteratively directly as $x_i\sim \text{Exp(1)}$ and summing $x_i$ to get event times, let's sample the inter event distances in the cumulative space as $\Delta y_i \sim \text{Exp(1)}$.
+
+Then calculate $y_i = \Sigma_{i' = 1}^{i} \Delta y_{i'}$
+
+Each $y_i$ can be inverted with $d(t)$ to get $t_i = d(y_i)$. 
+
+Then the inter event times can be calculated as $\Delta t_i = t_i - t_{i-1}$, where $t_0 = 0$ for the time of the zeroeth event.
+
+When an event causes the rate function to change after some time $t^{*}$, rather than rejecting events after $t^{*}$ with probability $30\%$, instead we would re-evaluate what each value $y_i$ maps to in the time space for events $t_i$ scheduled to happen after $t^{*}$ with the new rate function, and calculate the inter event times as $\Delta t_i = t_{i} - t_{i-1}$. 
+
+
+<!-- **Option 2:** When facemask time comes, you cancel the existing plan and schedule based on the new rate (of 0.7 up to time 2).
 The answer is to sample from $`\text{Exp}(1) / 0.7`$, which is equivalent to an Exponential distribution of rate 0.7 — this is referred to as "Time rescaling."
 
 *Observation:*
 If the person took an antiviral that changes their new infectiousness, you could assume this is the person’s new intrinsic infectiousness. Sometimes, you may *have* to:
-Imagine viral rebound. We have to reschedule if it *increases* future transmissibility.
+Imagine viral rebound. We have to reschedule if it *increases* future transmissibility. -->
 
 ## Distributing Infection Hazard
 
