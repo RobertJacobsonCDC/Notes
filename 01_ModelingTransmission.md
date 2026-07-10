@@ -32,8 +32,11 @@ Sample from a $`\text{Poisson}(2) \to n`$. Then sample $`n`$ times uniformly in 
 
 **Option 2:** Iteratively sample $`x_i \sim \text{Exp}(1)`$. Then the times are $`x_1, x_1 + x_2, x_1 + x_2 + x_3,\dots`$ up to when they exceed 2.
 
+**Option 3**: Time scaling.
+
 ### Observation:
 If we simulate from a Poisson process of rate $`r(t)`$, then the probability of having one event and the time of that event matches the intrinsic infectious process.
+
 
 ## Rejection Sampling and Time Scaling
 
