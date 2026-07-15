@@ -20,7 +20,7 @@ P(a \lt X\lt b)=\int_a^bf_X(x) dx
 The CDF tells you probabilities on "half intervals" $`(\infty, x]`$. But it turns out that if you know probabilities on "half intervals," you know everything about the distribution itself. First, notice we automatically have probabilities on any interval $`(a, b)`$:
 
 ```math
-P(a\lt X\lt b)=\int_a^bf_X(x) dx=\int_{-\infty}^a f_X(x) dx-\int_{-\infty}^b f_X(x) dx=F_X(a)-F_X(b)
+P(a\lt X\lt b)=\int_a^bf_X(x) dx= \int_{-\infty}^{b}f_X(x) dx -  \int_{-\infty}^{a}f_X(x) dx =F_X(b) - F_X(a)
 ```
 
 **Observation:** We have $`F_X(x)- F_X(c)=\int_c^xf_X(t) dt`$. The Fundamental Theorem of Calculus says that $`\frac{d}{dx}\left[\int_c^xf_X(t) dt\right]=f_X(x)`$. So,
@@ -55,6 +55,12 @@ $`\hspace{2cm}=\frac{\lim_{\Delta t\to0}\frac{P(t\leq X \leq t+\Delta t)}{\Delta
 $`\hspace{2cm}=\frac{\frac{dF_X}{dt}(t)}{S_X(t)}`$
 
 $`\hspace{2cm}=\frac{f_X(t)}{S_X(t)}\hspace{5cm}\Box`$
+
+
+With $S_X(x) = P(X > x) = 1 -  P(X \leq x) = F_X(x)$, then we also have 
+```math
+P(a\lt X\lt b)= F_X(b) - F_X(a) = S_X(a) - S_X(b)
+```
 
 
 # 0.1: Background: Poisson Processes and the Exponential Distribution
