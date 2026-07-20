@@ -63,11 +63,11 @@ If we simulate from a Poisson process of rate $`r(t)`$, then the probability of 
 ## Rejection Sampling and Time Scaling
 
 Consider how to handle changes:
-Suppose at a random time $`t \in [0, 2]`$, this person will wear a perfect facemask.
+Suppose at a random time $`t^{\text{*}} \in [0, 2]`$, this person will wear a perfect facemask.
 
 ### Q: How does this change intrinsic transmissibility, and how do we simulate?
 
-**Option 1:** Rejection sample. You sample according to Option 2. Then at the time of the purported event, if it is after the facemask time $`t`$, you reject it (ignore it).
+**Option 1:** Rejection sample. You sample according to Option 2. Then at the time of the purported event, if it is after the facemask time $`t^{\text{*}}`$, you reject it (ignore it).
 
 What if the facemask isn’t perfect? Say it only prevents transmission 30% of the time.
 
@@ -85,7 +85,51 @@ Each $y_i$ can be inverted with $d(t)$ to get $t_i = d(y_i)$.
 
 Then the inter event times can be calculated as $\Delta t_i = t_i - t_{i-1}$, where $t_0 = 0$ for the time of the zeroeth event.
 
-When an event causes the rate function to change after some time $t^{*}$, rather than rejecting events after $t^{*}$ with probability $30\%$, instead we re-evaluate what each value $y_i$ in the cumulative space maps to in the time space for events $t_i$ scheduled to happen after $t^{*}$. Since the rate function has changed after $t^{*}$, for those events we calculate $t_i$ with the inverse of the new cumulative rate function, $t_i = d^{*}(y_i)$, and calculate the inter event times as $\Delta t_i = t_{i} - t_{i-1}$. Reschedule events with the new event times.
+When an event causes the rate function to change after some time $t^{\text{*}}$, rather than rejecting events after $t^{\text{*}}$ with probability 0.3, we can instead re-evaluate what each value $y_i$ in the cumulative space maps to in the time space for events $t_i$ scheduled to happen after $t^{\text{*}}$. Since the rate function has changed after $t^{\text{*}}$, for those events we calculate $t_i$ with the inverse of the new cumulative rate function, $t_i = d^{\text{*}}(y_i)$, and calculate the inter event times as $\Delta t_i = t_{i} - t_{i-1}$. Reschedule events with the new event times. Note that our inverse function $d^{\text{*}}(t)$ will be equal to $d(t)$ before $t^{\text{*}}$.
+
+For example, imagine that at a random time $t^{\text{*}} \in [0, 2]$ an infectious agent wears an imperfect mask that is effective at preventing 30% of infections. Like the previous examples the rate function $r(t)$ is 1 absent any interventions. Now we write
+
+```math
+r(t) = \begin{cases}
+1, & t \in [0, t^{\text{*}}] \\
+0.7, & t \in [t^{\text{*}}, 2] \\
+0, & \text{else}
+\end{cases}
+```
+
+then the cumulative rate function is
+
+```math
+c(t) = \begin{cases}
+t, & t \in [0, t^{\text{*}}] \\
+0.7t + 0.3t^{\text{*}}, & t \in [t^{\text{*}}, 2]\\
+1.4 + 0.3t^{\text{*}}, & \text{else}
+\end{cases}
+```
+
+and the inverse function will be
+
+```math
+d(t) = \begin{cases}
+t, & t \in [0, t^{\text{*}}] \\
+\frac{t - 0.3t^{\text{*}}}{0.7}, & t \in [t^{\text{*}}, 2] \\
+2, & \text{else}
+\end{cases}
+```
+
+Before $t^{\text{*}}$ would have been determined, we have done the following:
+
+1. Iteratively sample $\Delta y_i \sim \text{Exp(1)}$
+2. Calculate $y_i$ as $y_i = \Sigma_{i' = 1}^{i} \Delta y_{i'}$
+3. Inverted $y_i$ with $d(t)$ to get $t_i$. Since $d(t) = t$, then we calculate $t_i$ as $t_i = y_i$. Once $t_i > 2$, stop sampling $\Delta y_i$.
+4.  The inter event times are $\Delta t_i = t_i - t_{i-1}$.
+
+Once we know what $t^{\text{*}}$ is, for every value $t_i > t^{\text{*}}$, do the following:
+
+5. Map $t_i$ back to $y_i$ using the original cumulative function $c(t) = t$. That is, $y_i = t_i$.
+6. Invert $y_i$ with $d(t) = \frac{t - 0.3t^{\text{*}}}{0.7}$ to get the new $t_i^{\text{new}}$, i.e., $t_i^{\text{new}} = d^{\text{*}}(y_i) = \frac{y_i - 0.3t^{\text{*}}}{0.7}$.
+7. The event times are now $t_1, ..., t_i^{\text{new}}$ for all $t \in [0, 2]$. Once $t^{\text{new}}_i > 2$, stop inverting $y_i$ to get $t^{\text{new}}_i$. 
+8.  The inter event times are $\Delta t_i = t_i - t_{i-1}$, switching to $\Delta t^{\text{new}}_i = t^{\text{new}}_i - t^{\text{new}}_{i-1}$ when $t_i > t^{\text{*}}$. The first inter event time calculated using the new inverse cumulative will be $\Delta t^{\text{new}}_i = t^{\text{new}}_i - t_{i-1}$, where $t^{\text{new}}_i \geq t^{\text{*}}$ and $t_i < t^{\text{*}}$.
 
 *Observation:*
 If the person took an antiviral that changes their new infectiousness, you could assume this is the person’s new intrinsic infectiousness. Sometimes, you may *have* to:
