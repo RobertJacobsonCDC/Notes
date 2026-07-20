@@ -85,9 +85,9 @@ Each $y_i$ can be inverted with $d(t)$ to get $t_i = d(y_i)$.
 
 Then the inter event times can be calculated as $\Delta t_i = t_i - t_{i-1}$, where $t_0 = 0$ for the time of the zeroeth event.
 
-When an event causes the rate function to change after some time $t^{\text{*}}$, rather than rejecting events after $t^{\text{*}}$ with probability 0.3, we can instead re-evaluate what each value $y_i$ in the cumulative space maps to in the time space for events $t_i$ scheduled to happen after $t^{\text{*}}$. Since the rate function has changed after $t^{\text{*}}$, for those events we calculate $t_i$ with the inverse of the new cumulative rate function, $t_i = d^{\text{*}}(y_i)$, and calculate the inter event times as $\Delta t_i = t_{i} - t_{i-1}$. Reschedule events with the new event times. Note that our inverse function $d^{\text{*}}(t)$ will be equal to $d(t)$ before $t^{\text{*}}$.
+When an event causes the rate function to change after some time $`t^{\text{*}}`$, rather than rejecting events after $`t^{\text{*}}`$ with probability 0.3, we can instead re-evaluate what each value $y_i$ in the cumulative space maps to in the time space for events $t_i$ scheduled to happen after $`t^{\text{*}}`$. Since the rate function has changed after $`t^{\text{*}}`$, for those events we calculate $t_i$ with the inverse of the new cumulative rate function, $`t_i = d^{\text{*}}(y_i)`$, and calculate the inter event times as $\Delta t_i = t_{i} - t_{i-1}$. Reschedule events with the new event times. Note that our inverse function $`d^{\text{*}}(t)`$ will be equal to $d(t)$ before $`t^{\text{*}}`$.
 
-For example, imagine that at a random time $t^{\text{*}} \in [0, 2]$ an infectious agent wears an imperfect mask that is effective at preventing 30% of infections. Like the previous examples the rate function $r(t)$ is 1 absent any interventions. Now we write
+Let's look back at our face mask wearing scenario and walk through what this means for forecasting. Imagine that at a random time $t^{\text{*}} \in [0, 2]$ an infectious agent wears an imperfect mask that is effective at preventing 30% of infections. Like the previous examples the rate function $r(t)$ is 1 absent any interventions. Now we write
 
 ```math
 r(t) = \begin{cases}
@@ -124,16 +124,27 @@ Before $t^{\text{*}}$ would have been determined, we have done the following:
 3. Inverted $y_i$ with $d(t)$ to get $t_i$. Since $d(t) = t$, then we calculate $t_i$ as $t_i = y_i$. Once $t_i > 2$, stop sampling $\Delta y_i$.
 4.  The inter event times are $\Delta t_i = t_i - t_{i-1}$.
 
-Once we know what $t^{\text{*}}$ is, for every value $t_i > t^{\text{*}}$, do the following:
+Once we know what $`t^{\text{*}}`$ is, for every value $`t_i > t^{\text{*}}`$, do the following:
 
-5. Map $t_i$ back to $y_i$ using the original cumulative function $c(t) = t$. That is, $y_i = t_i$.
-6. Invert $y_i$ with $d(t) = \frac{t - 0.3t^{\text{*}}}{0.7}$ to get the new $t_i^{\text{new}}$, i.e., $t_i^{\text{new}} = d^{\text{*}}(y_i) = \frac{y_i - 0.3t^{\text{*}}}{0.7}$.
-7. The event times are now $t_1, ..., t_i^{\text{new}}$ for all $t \in [0, 2]$. Once $t^{\text{new}}_i > 2$, stop inverting $y_i$ to get $t^{\text{new}}_i$. 
-8.  The inter event times are $\Delta t_i = t_i - t_{i-1}$, switching to $\Delta t^{\text{new}}_i = t^{\text{new}}_i - t^{\text{new}}_{i-1}$ when $t_i > t^{\text{*}}$. The first inter event time calculated using the new inverse cumulative will be $\Delta t^{\text{new}}_i = t^{\text{new}}_i - t_{i-1}$, where $t^{\text{new}}_i \geq t^{\text{*}}$ and $t_i < t^{\text{*}}$.
+5. Map $t_i$ back to $y_i$ using the original cumulative function $c(t) = t$. In this example, $c(t) = t$, thus $y_i = t_i$.
+6. Invert $y_i$ with $`d(t) = \frac{t - 0.3t^{\text{*}}}{0.7}`$ to get the new forecasted times for infection attempts, i.e., $`t_i^{\text{new}} = d^{\text{*}}(y_i) = \frac{y_i - 0.3t^{\text{*}}}{0.7}`$.
+7. The forecasted times are now $`t_1, ..., t_i^{\text{new}}`$ for all $t \in [0, 2]$. Once $`t^{\text{new}}_i > 2`$, stop inverting $y_i$ to get $`t^{\text{new}}_i`$ since the infectious agent is no longer infectious when $t > 2$. 
+8.  The inter event times are $\Delta t_i = t_i - t_{i-1}$, switching to $`\Delta t^{\text{new}}_i = t^{\text{new}}_i - t^{\text{new}}_{i-1}`$ when $`t_i > t^{\text{*}}`$. More specifically, the first inter event time calculated using the new inverse cumulative will be $`\Delta t^{\text{new}}_i = t^{\text{new}}_i - t_{i-1}`$, where $`t^{\text{new}}_i \geq t^{\text{*}}`$ and $`t_i < t^{\text{*}}`$.
+
+For example, suppose we had forecasted $\Delta y_i = \{0.11, 0.23, 0.74, 0.38, 0.25, 0.19, 0.53\}$ by sampling $\Delta y_i \sim \text{Exp(1)}$. Then we would have:
+
+1. $\Delta y_i = \{ 0.11, 0.23, 0.74, 0.38, 0.25, 0.19, 0.53\}$
+2. $y_i = \{ 0.11, 0.34, 1.08, 1.46, 1.71, 1.90 , 2.43\}$
+3. Invert $y_i$ with $d(t) = t$ to get $t_i$. In this trivial example, $t_i = \{ 0.11, 0.34, 1.08, 1.46, 1.71, 1.90, 2.43\}$. The last event time is past $t = 2$, so drop it from the forecasted infection attempt times. 
+4. The inter event times are $\Delta t_i = \{ 0.11, 0.23, 0.74, 0.38, 0.25, 0.19 \}$. 
+5. Imagine that before $t = 1.5$, another random event lets us know that $t^{\text{*}} = 1.5$. Instead of accepting $t_5 = 1.71$ and $t_6 = 1.90$, we map those values back to the cumulative space for $y_5 = 1.71$ and $y_6 = 1.90$. 
+6. Since an intervention has changed the rate and cumulative rate functions past $t = 1.5$, we'll use the modified cumulative rate function to reassess the forecasted times. Now $t_5 = \frac{y_5 - 0.3 * 1.5}{0.7} = \frac{1.26}{0.7} = 1.80$ and $t_6 = \frac{y_6 - 0.3 * 1.5}{0.7} = \frac{1.45}{0.7} \approx 2.07$. We drop the forecasted time $t_6$ since $t_6 > 2$, past which our infectious agent is no longer infectious.
+7. Our forecasted times are now $t_i = \{ 0.11, 0.34, 1.08, 1.46, 1.80\}$
+8. Our inter event times are now $\Delta t_i = \{ 0.11, 0.23, 0.74, 0.38, 0.34\}$
 
 *Observation:*
 If the person took an antiviral that changes their new infectiousness, you could assume this is the person’s new intrinsic infectiousness. Sometimes, you may *have* to:
-Imagine viral rebound. We have to reschedule if it *increases* future transmissibility. In this case, time scaling and forecasting events through the cumulative rate function is a straight forward approach. 
+Imagine viral rebound. We have to reschedule if it *increases* future transmissibility. In this case we might expect that forecasted events happen earlier than they were originally forecasted. The approach of time scaling and forecasting events through the cumulative rate function is a straight forward approach to rescheduling events in this scenario.
 
 ## Distributing Infection Hazard
 
