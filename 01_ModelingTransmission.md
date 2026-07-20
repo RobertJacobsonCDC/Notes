@@ -93,7 +93,7 @@ When an event causes the rate function to change after some time $t^{*}$, rather
 If the person took an antiviral that changes their new infectiousness, you could assume this is the person’s new intrinsic infectiousness. Sometimes, you may *have* to:
 Imagine viral rebound. We have to reschedule if it *increases* future transmissibility. In this case, time scaling and forecasting events through the cumulative rate function is a straight forward approach.
 
-Whenever rescheduling is needed, start from the time of the change, not from the original scheduling time. Suppose the rate changes at time $`t^{*}`$ before the next proposed attempt. Because that proposal is still in the future, we know that no **proposed forecast event** occurred before $`t^{*}`$; it is not enough merely to know that no actual transmission occurred. In cumulative-rate space, the remaining distance to the next proposed attempt is still $`\operatorname{Exp}(1)`$ by memorylessness. Therefore, cancel the pending proposal, reset the cumulative-rate clock at $`t^{*}`$, use the new upper-bound forecast after $`t^{*}`$, and sample a new next attempt from there. The same logic applies after a proposed attempt is rejected by thinning: future Poisson-process increments are independent of the rejected attempt, so generate the next proposal starting from the rejection time. A rate increase requires this rescheduling because the old forecast may no longer be an upper bound on the actual rate.
+Whenever rescheduling is needed, start from the time of the change, not from the original scheduling time. Suppose the rate changes at time $`t^{*}`$ before the next proposed attempt. Because that proposal is still in the future, we know that no **proposed forecast event** occurred before $`t^{*}`$; it is not enough merely to know that no actual transmission occurred. In cumulative-rate space, the remaining distance to the next proposed attempt is still $`\text{Exp}(1)`$ by memorylessness. Therefore, cancel the pending proposal, reset the cumulative-rate clock at $`t^{*}`$, use the new upper-bound forecast after $`t^{*}`$, and sample a new next attempt from there. The same logic applies after a proposed attempt is rejected by thinning: future Poisson-process increments are independent of the rejected attempt, so generate the next proposal starting from the rejection time. A rate increase requires this rescheduling because the old forecast may no longer be an upper bound on the actual rate.
 
 ## Distributing Infection Hazard
 
@@ -223,13 +223,13 @@ The intrinsic infectiousness is at most 2, so the total infectiousness is at mos
 
 **Case A: Constant upper-bound forecast.** Use $`R(t)=8`$ for $`0\leq t\leq2`$.
 
-1. Sample $`X\sim\operatorname{Exp}(1)`$ and set $`t=X/8`$.
+1. Sample $`X\sim\text{Exp}(1)`$ and set $`t=X/8`$.
 2. If $`t>2`$, there is no proposed attempt; stop.
 3. Otherwise, propose an attempt at time $`t`$ with forecast rate $`R(t)=8`$.
 
 **Case B: Piecewise upper-bound forecast.** Use $`R(t)=4`$ for $`0\leq t<1`$ and $`R(t)=8`$ for $`1\leq t<2`$.
 
-1. Sample a cumulative-rate value $`X\sim\operatorname{Exp}(1)`$. We will choose a time $`t`$ such that $`\Lambda(t)=X`$; equivalently, $`t=\Lambda^{-1}(X)`$.
+1. Sample a cumulative-rate value $`X\sim\text{Exp}(1)`$. We will choose a time $`t`$ such that $`\Lambda(t)=X`$; equivalently, $`t=\Lambda^{-1}(X)`$.
 2. The cumulative forecast rate is $`\Lambda(t)=4t`$ for $`0\leq t\leq1`$ and $`\Lambda(t)=4+8(t-1)=8t-4`$ for $`1\leq t\leq2`$. Its total is $`\Lambda(2)=12`$.
 3. If $`X>12`$, there is no proposed attempt; stop. Otherwise, map back to time:
 
@@ -290,7 +290,7 @@ Conditional on $`A`$, the total rate integrates to
 Therefore, conditional on a given person's infectiousness multiplier $`A`$, their number of secondary infections $`K`$ is Poisson distributed:
 
 ```math
-K\mid A\sim\operatorname{Poisson}(A).
+K\mid A\sim\text{Poisson}(A).
 ```
 
 Thus $`E[K\mid A]=A`$: for a given person, $`A`$ is their expected number of secondary infections. Averaging over people gives $`E[K]=E[A]`$, the population-average expected number of secondary infections.
@@ -298,19 +298,19 @@ Thus $`E[K\mid A]=A`$: for a given person, $`A`$ is their expected number of sec
 To obtain overdispersion, sample a different $`A`$ for each infected person from a Gamma distribution. If
 
 ```math
-A\sim\operatorname{Gamma}\left(k,\;\text{rate}=\frac{k}{R_0}\right),
+A\sim\text{Gamma}\left(k,\;\text{rate}=\frac{k}{R_0}\right),
 ```
 
 then $`E[A]=R_0`$ and the marginal offspring distribution is negative binomial with mean $`R_0`$ and dispersion $`k`$:
 
 ```math
-K\sim\operatorname{NegBin}(\text{mean}=R_0,\;\text{dispersion}=k).
+K\sim\text{NegBin}(\text{mean}=R_0,\;\text{dispersion}=k).
 ```
 
 To simulate a person's transmissions, either simulate a Poisson point process with rate $`A f(t)`$, or equivalently:
 
 1. Sample $`A`$ from the Gamma distribution.
-2. Sample $`K\sim\operatorname{Poisson}(A)`$.
+2. Sample $`K\sim\text{Poisson}(A)`$.
 3. Sample $`K`$ independent transmission times from density $`f(t)`$.
 
 ### Worked Example: Negative-Binomial Infectiousness with a Facemask
@@ -342,7 +342,7 @@ C=\int_0^\infty f(t)m(t)\,dt.
 Conditional on $`A`$, the expected number of secondary infections is now $`AC`$, so
 
 ```math
-K\mid A\sim\operatorname{Poisson}(AC).
+K\mid A\sim\text{Poisson}(AC).
 ```
 
 Conditional on $`K`$, the transmission times are independent draws from the adjusted density
@@ -367,7 +367,7 @@ Generate proposed attempts from this forecast. Its cumulative forecast rate is
 \Lambda_R(t)=\int_0^t A f(s)\,ds=A F(t).
 ```
 
-To generate proposed times by time scaling, sample independent $`E_i\sim\operatorname{Exp}(1)`$ and form $`Y_i=E_1+\cdots+E_i`$. If $`Y_i>A`$, stop: the total cumulative forecast rate is $`A`$. Otherwise, map the cumulative-rate value back to time:
+To generate proposed times by time scaling, sample independent $`E_i\sim\text{Exp}(1)`$ and form $`Y_i=E_1+\cdots+E_i`$. If $`Y_i>A`$, stop: the total cumulative forecast rate is $`A`$. Otherwise, map the cumulative-rate value back to time:
 
 ```math
 t_i=\Lambda_R^{-1}(Y_i)=F^{-1}\left(\frac{Y_i}{A}\right).
