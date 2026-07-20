@@ -131,16 +131,16 @@ Once we know what $`t^{\text{*}}`$ is, for every value $`t_i > t^{\text{*}}`$, d
 7. The forecasted times are now $`t_1, ..., t_i^{\text{new}}`$ for all $t \in [0, 2]$. Once $`t^{\text{new}}_i > 2`$, stop inverting $y_i$ to get $`t^{\text{new}}_i`$ since the infectious agent is no longer infectious when $t > 2$. 
 8.  The inter event times are $\Delta t_i = t_i - t_{i-1}$, switching to $`\Delta t^{\text{new}}_i = t^{\text{new}}_i - t^{\text{new}}_{i-1}`$ when $`t_i > t^{\text{*}}`$. More specifically, the first inter event time calculated using the new inverse cumulative will be $`\Delta t^{\text{new}}_i = t^{\text{new}}_i - t_{i-1}`$, where $`t^{\text{new}}_i \geq t^{\text{*}}`$ and $`t_i < t^{\text{*}}`$.
 
-For example, suppose we had forecasted $\Delta y_i = \{0.11, 0.23, 0.74, 0.38, 0.25, 0.19, 0.53\}$ by sampling $\Delta y_i \sim \text{Exp(1)}$. Then we would have:
+For example, suppose we had forecasted $`\Delta y_i = \{0.11, 0.23, 0.74, 0.38, 0.25, 0.19, 0.53\}`$ by sampling $\Delta y_i \sim \text{Exp(1)}$. Then we would have:
 
-1. $\Delta y_i = \{ 0.11, 0.23, 0.74, 0.38, 0.25, 0.19, 0.53\}$
-2. $y_i = \{ 0.11, 0.34, 1.08, 1.46, 1.71, 1.90 , 2.43\}$
-3. Invert $y_i$ with $d(t) = t$ to get $t_i$. In this trivial example, $t_i = \{ 0.11, 0.34, 1.08, 1.46, 1.71, 1.90, 2.43\}$. The last event time is past $t = 2$, so drop it from the forecasted infection attempt times. 
-4. The inter event times are $\Delta t_i = \{ 0.11, 0.23, 0.74, 0.38, 0.25, 0.19 \}$. 
+1. $`\Delta y_i = \{ 0.11, 0.23, 0.74, 0.38, 0.25, 0.19, 0.53\}`$
+2. $`y_i = \{ 0.11, 0.34, 1.08, 1.46, 1.71, 1.90 , 2.43\}`$
+3. Invert $y_i$ with $d(t) = t$ to get $t_i$. In this trivial example, $`t_i = \{ 0.11, 0.34, 1.08, 1.46, 1.71, 1.90, 2.43\}`$. The last event time is past $t = 2$, so drop it from the forecasted infection attempt times. 
+4. The inter event times are $`\Delta t_i = \{ 0.11, 0.23, 0.74, 0.38, 0.25, 0.19 \}`$. 
 5. Imagine that before $t = 1.5$, another random event lets us know that $t^{\text{*}} = 1.5$. Instead of accepting $t_5 = 1.71$ and $t_6 = 1.90$, we map those values back to the cumulative space for $y_5 = 1.71$ and $y_6 = 1.90$. 
 6. Since an intervention has changed the rate and cumulative rate functions past $t = 1.5$, we'll use the modified cumulative rate function to reassess the forecasted times. Now $t_5 = \frac{y_5 - 0.3 * 1.5}{0.7} = \frac{1.26}{0.7} = 1.80$ and $t_6 = \frac{y_6 - 0.3 * 1.5}{0.7} = \frac{1.45}{0.7} \approx 2.07$. We drop the forecasted time $t_6$ since $t_6 > 2$, past which our infectious agent is no longer infectious.
-7. Our forecasted times are now $t_i = \{ 0.11, 0.34, 1.08, 1.46, 1.80\}$
-8. Our inter event times are now $\Delta t_i = \{ 0.11, 0.23, 0.74, 0.38, 0.34\}$
+7. Our forecasted times are now $`t_i = \{ 0.11, 0.34, 1.08, 1.46, 1.80\}`$
+8. Our inter event times are now $`\Delta t_i = \{ 0.11, 0.23, 0.74, 0.38, 0.34\}`$
 
 *Observation:*
 If the person took an antiviral that changes their new infectiousness, you could assume this is the person’s new intrinsic infectiousness. Sometimes, you may *have* to:
