@@ -130,8 +130,7 @@ $P(t<X\leq t+\Delta t\mid X>t)=P(0<X\leq\Delta t)$.
 Therefore,
 
 ```math
-h(t)=\lim_{\Delta t\to0}\frac{P(t<X\leq t+\Delta t\mid X>t)}{\Delta t}
-=\lim_{\Delta t\to0}\frac{P(0<X\leq\Delta t)}{\Delta t}=\lambda,
+h(t) = \lim_{\Delta t \to 0} \frac{P(t < X \leq t + \Delta t \mid X > t)}{\Delta t} = \lim_{\Delta t \to 0} \frac{P(0 < X \leq \Delta t)}{\Delta t} =\lambda
 ```
 
 which is independent of $t$. Thus the hazard is a constant $`\lambda>0`$. Also, since $`S(t)=1-F(t)`$, we have $`\frac{dS}{dt} = -\frac{dF}{dt}`$. It follows that
