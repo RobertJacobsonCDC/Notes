@@ -125,10 +125,7 @@ We are ready to prove the main theorem of this section.
 **Theorem:** The only continuous memoryless probability distribution is the exponential distribution.
 
 **Proof:** For every $\Delta t>0$, memorylessness gives
-
-$$
-P(t<X\leq t+\Delta t\mid X>t)=P(0<X\leq\Delta t).
-$$
+$P(t<X\leq t+\Delta t\mid X>t)=P(0<X\leq\Delta t)$.
 
 Therefore,
 
