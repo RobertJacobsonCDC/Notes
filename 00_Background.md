@@ -3,7 +3,7 @@
 
 - **Probability Density Function (PDF)**: A function describing the relative likelihood of a continuous random variable taking a specific value.
 
-For continuous distributions, this definition isn't good enough, because $`P(X=c)=0`$ for all numbers $`c`$! Instead the PDF describes the probability that an event will occur in some arbitrary interval. If $`f_X(x)`$ is the PDF for the distribution of an r.v. $`X`$, then
+For continuous distributions, this definition isn't good enough, because $`P(X=c)=0`$ for all numbers $`c`$! Instead the PDF describes the probability that an event will occur in some arbitrary interval. If $`f_X(x)`$ is the PDF for the distribution of a random variable $`X`$, then
 
 ```math
 P(a \lt X\lt b)=\int_a^bf_X(x) dx
@@ -15,7 +15,7 @@ P(a \lt X\lt b)=\int_a^bf_X(x) dx
 
 
 
-- **Cumulative Distribution Function (CDF)**: A function giving the probability that a random variable is less than or equal to a specific value. For a continuous r.v. with PDF $`f_X`$, $`F_X(x) := P(X \leq x) = \int_{-\infty}^x f_X(w) dw`$.
+- **Cumulative Distribution Function (CDF)**: A function giving the probability that a random variable is less than or equal to a specific value. For a continuous random variable with PDF $`f_X`$, $`F_X(x) := P(X \leq x) = \int_{-\infty}^x f_X(w) dw`$.
 
 The CDF tells you probabilities on "half intervals" $`(-\infty, x]`$. But it turns out that if you know probabilities on "half intervals," you know everything about the distribution itself. First, notice we automatically have probabilities on any interval $`(a, b)`$:
 
@@ -57,7 +57,7 @@ $`\hspace{2cm}=\frac{\frac{dF_X}{dt}(t)}{S_X(t)}`$
 $`\hspace{2cm}=\frac{f_X(t)}{S_X(t)}\hspace{5cm}\Box`$
 
 
-With $S_X(x) = P(X > x) = 1 -  P(X \leq x) = F_X(x)$, then we also have 
+With $`S_X(x) = P(X > x) = 1 -  P(X \leq x) = 1 - F_X(x)`$, then we also have 
 ```math
 P(a\lt X\lt b)= F_X(b) - F_X(a) = S_X(a) - S_X(b)
 ```
@@ -83,16 +83,16 @@ independently at a constant average rate $`\lambda`$.
 p_{N(t)}(k) = P(N(t) = k) = \frac{(\lambda t)^k e^{-\lambda t}}{k!}, \qquad k=0,1,2,\ldots
 ```
 
-- **Exponential Distribution**: A continuous probability distribution describing the time between events in a Poisson process, with PDF $`f(x) = \lambda e^{-\lambda x}`$ for $`x \geq 0`$.  If an r.v. $`X`$ has exponential distribution with rate $`\lambda`$, we write $`X \sim \text{Exp}(\lambda)`$.
+- **Exponential Distribution**: A continuous probability distribution describing the time between events in a Poisson process, with PDF $`f(x) = \lambda e^{-\lambda x}`$ for $`x \geq 0`$.  If a random variable $`X`$ has exponential distribution with rate $`\lambda`$, we write $`X \sim \text{Exp}(\lambda)`$.
 
 
 ## Memorylessness
 
- - The distribution of a positive continuously distributed r.v. $`X`$ is **memoryless** if $`P(X>t) = P(X > s+t \mid X > s)`$ for all $`s,  t\geq 0`$.
+ - The distribution of a positive continuously distributed random variable $`X`$ is **memoryless** if $`P(X>t) = P(X > s+t \mid X > s)`$ for all $`s,  t\geq 0`$.
 
 In words, the probability that an event occurs after a time $`t`$ (from the start) is the same as the probability that it occurs after an additional time $`t`$ from a time $`s`$ given that it has not occurred by time $`s`$. The time we have to wait for an event is independent of the time we have already waited.
 
-**Lemma:** The distribution of a positive continuously distributed r.v. $`X`$ is memoryless iff $`P(0\lt  X \lt  t) = P(s\lt  X \lt  t+s \mid X > s)`$.
+**Lemma:** The distribution of a positive continuously distributed random variable $`X`$ is memoryless iff $`P(0\lt  X \lt  t) = P(s\lt  X \lt  t+s \mid X > s)`$.
 
 **Proof:**
 
@@ -137,7 +137,7 @@ h(t)=\lim_{\Delta t\to0}\frac{P(t<X\leq t+\Delta t\mid X>t)}{\Delta t}
 =\lim_{\Delta t\to0}\frac{P(0<X\leq\Delta t)}{\Delta t}=\lambda,
 ```
 
-which is independent of $`t`$. Thus the hazard is a constant $`\lambda>0`$. Also, since $`S(t)=1-F(t)`$, we have $`\frac{dS}{dt} = -\frac{dF}{dt}`$. It follows that
+which is independent of $t$. Thus the hazard is a constant $`\lambda>0`$. Also, since $`S(t)=1-F(t)`$, we have $`\frac{dS}{dt} = -\frac{dF}{dt}`$. It follows that
 
 ```math
 \lambda = h(t) = \frac{\frac{dF}{dt}}{S(t)} = \frac{-\frac{dS}{dt}}{S(t)} \longleftrightarrow  -\lambda S(t) = \frac{dS}{dt} \longleftrightarrow S(t)=e^{-\lambda t}+ c.
@@ -236,19 +236,19 @@ The equality marked with a '$`\star`$' needs justification, because it's not tru
 
 **Another proof:**
 
-Let $\lambda = \lambda(t)$ be some non-negative real-valued rate function of a Poisson point process, i.e. the hazard function. When $\lambda(t)$ is not constant, the Poisson point process is inhomogeneous.
+Let $`\lambda = \lambda(t)`$ be some non-negative real-valued rate function of a Poisson point process, i.e. the hazard function. When $`\lambda(t)`$ is not constant, the Poisson point process is inhomogeneous.
 
 Let $c(t)$ be the cumulative rate function, s.t.
 
 ```math
 c(t) = \int_0^t \lambda(s)ds
 ```
-With $\lambda(t)$ a non-negative real-valued function, the cumulative rate function is monotonically non-decreasing. It has an ordinary inverse only when it is strictly increasing; otherwise, use the generalized inverse defined above.
+With $`\lambda(t)`$ a non-negative real-valued function, the cumulative rate function is monotonically non-decreasing. It has an ordinary inverse only when it is strictly increasing; otherwise, use the generalized inverse defined above.
 
-$\lambda(t)$ as the hazard function also satisfies the relationship,
+$`\lambda(t)`$ as the hazard function also satisfies the relationship,
 
 ```math
-\lambda(t) = \frac{f(t)}{S(t)} = \frac{1}{S(t)} \frac{dF}{dt} = \frac{-1}{S(t)}\frac{dS}{dt} = -\frac{d}{dt}\Big(lnS(t)\Big)
+\lambda(t) = \frac{f(t)}{S(t)} = \frac{1}{S(t)} \frac{dF}{dt} = \frac{-1}{S(t)}\frac{dS}{dt} = -\frac{d}{dt}\Big(\ln S(t)\Big)
 ```
 
 Then
@@ -257,7 +257,7 @@ Then
 ln(S(t)) = -\int_0^t \lambda(s)ds = -c(t)
 ```
 
-Therefore, we can write the survival function $S(t) = P(T > t)$ as
+Therefore, we can write the survival function $`S(t) = P(T > t)`$ as
 
 ```math
 S(t) = e^{-c(t)}
@@ -265,7 +265,7 @@ S(t) = e^{-c(t)}
 
 For the following ordinary-inverse argument, assume $`c`$ is strictly increasing. Then it has an inverse $`d`$ such that $`d(c(t))=t`$ and $`c(d(t))=t`$. If $`c`$ has flat portions, the generalized inverse gives the corresponding sampling construction.
 
-Therefore, $c(T) > y \Leftrightarrow T > d(y)$ since c(t) and d(t) uniquely map to each other.
+Therefore, $`c(T) > y \Leftrightarrow T > d(y)`$ since $c(t)$ and $d(t)$ uniquely map to each other.
 
 Then
 
@@ -273,9 +273,9 @@ Then
 P(c(T) > y) = P(T > d(y)) = S(d(y)) = e^{-c(d(y))} = e^{-y} = S^{*}(y)
 ```
 
-where $S^{*}(y)$ is the survival function of events in the cumulative space.
+where $`S^{\text{*}}(y)`$ is the survival function of events in the cumulative space.
 
-This means that $c(T) = y \sim Exp(1)$, i.e. inter event distances in the cumulative space can be sampled with an exponential distribution of rate equal to $1$.
+This means that $`c(T) = y \sim \operatorname{Exp}(1)`$, i.e. inter event distances in the cumulative space can be sampled with an exponential distribution of rate equal to $1$.
 
 **And another proof:**
 
@@ -305,7 +305,7 @@ Since we can sample the interevent distances in the cumulative space with $\sim 
 
 Algorithmically, this means:
 
-1. Sample $\Delta y_i$ from $Exp(1)$
+1. Sample $\Delta y_i$ from $\operatorname{Exp}(1)$
 2. Calculate $y_i$ as $y_i = \Sigma_{i' = 1}^i \Delta y_{i'} $
 3. Invert $y_i$ to get $t_i$ through $t_i = d(y_i)$
 4. Calculate the inter event times $\Delta t_i = t_i - t_{i-1}$
