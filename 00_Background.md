@@ -201,17 +201,17 @@ If $`\Lambda(\infty)<\infty`$, then there is a nonzero probability $`e^{-\Lambda
 
 
 
-**Theorem:** Let $`\lambda=\lambda(t)>0`$ be a rate function with $`\Lambda(\infty)=\infty`$, and let $`d=\Lambda^{-1}`$. If $`X\sim\operatorname{Exp}(1)`$, then $`d(X)`$ has hazard function $`\lambda(t)`$.
+**Theorem:** Let $`\lambda=\lambda(t)>0`$ be a rate function with $`\Lambda(\infty)=\infty`$, and let $`d=\Lambda^{-1}`$. If $`X\sim\text{Exp}(1)`$, then $`d(X)`$ has hazard function $`\lambda(t)`$.
 
-Equivalently, if $`T`$ has hazard $`\lambda(t)`$, then $`\Lambda(T)\sim\operatorname{Exp}(1)`$. The map $`\Lambda`$ sends a time to cumulative-rate space, and its inverse $`d`$ sends a cumulative-rate value back to its corresponding time. Thus, to sample $`T`$, sample $`X\sim\operatorname{Exp}(1)`$ in cumulative-rate space and set $`T=d(X)`$.
+Equivalently, if $`T`$ has hazard $`\lambda(t)`$, then $`\Lambda(T)\sim\text{Exp}(1)`$. The map $`\Lambda`$ sends a time to cumulative-rate space, and its inverse $`d`$ sends a cumulative-rate value back to its corresponding time. Thus, to sample $`T`$, sample $`X\sim\text{Exp}(1)`$ in cumulative-rate space and set $`T=d(X)`$.
 
-**Example:** Suppose $`\lambda(t)=0.7`$. Then $`\Lambda(t)=\int_0^t0.7\,ds=0.7t`$, so its inverse is $`d(y)=\frac{y}{0.7}`$. The theorem says to start with $`X\sim\operatorname{Exp}(1)`$ in cumulative-rate space and map it back to time by applying $`d`$. Thus
+**Example:** Suppose $`\lambda(t)=0.7`$. Then $`\Lambda(t)=\int_0^t0.7\,ds=0.7t`$, so its inverse is $`d(y)=\frac{y}{0.7}`$. The theorem says to start with $`X\sim\text{Exp}(1)`$ in cumulative-rate space and map it back to time by applying $`d`$. Thus
 
 ```math
 T=d(X)=\frac{X}{0.7}.
 ```
 
-The resulting waiting time has constant hazard $`0.7`$, so $`T\sim\operatorname{Exp}(0.7)`$.
+The resulting waiting time has constant hazard $`0.7`$, so $`T\sim\text{Exp}(0.7)`$.
 
 This says that for a Poisson process, if the rate ($`\lambda=0.7`$) is smaller (than $`1`$ in this case), the wait time until the next event ($`\frac{1}{0.7}X`$) is larger.
 
@@ -271,7 +271,7 @@ P(c(T) > y) = P(T > d(y)) = S(d(y)) = e^{-c(d(y))} = e^{-y} = S^{*}(y)
 
 where $`S^{\text{*}}(y)`$ is the survival function of events in the cumulative space.
 
-This means that $`c(T) = y \sim \operatorname{Exp}(1)`$, i.e. inter event distances in the cumulative space can be sampled with an exponential distribution of rate equal to $1$.
+This means that $`c(T) = y \sim \text{Exp}(1)`$, i.e. inter event distances in the cumulative space can be sampled with an exponential distribution of rate equal to $1$.
 
 **And another proof:**
 
@@ -301,7 +301,7 @@ Since we can sample the interevent distances in the cumulative space with $\sim 
 
 Algorithmically, this means:
 
-1. Sample $\Delta y_i$ from $\operatorname{Exp}(1)$
+1. Sample $\Delta y_i$ from $\text{Exp}(1)$
 2. Calculate $y_i$ as $y_i = \Sigma_{i' = 1}^i \Delta y_{i'} $
 3. Invert $y_i$ to get $t_i$ through $t_i = d(y_i)$
 4. Calculate the inter event times $\Delta t_i = t_i - t_{i-1}$
