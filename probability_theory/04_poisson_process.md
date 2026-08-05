@@ -301,3 +301,54 @@ M(\Lambda(t)) - M(\Lambda(s)) \sim \text{Poisson}\big(\Lambda(t) - \Lambda(s)\bi
 using $`\Lambda(t) - \Lambda(s) = \int_s^t \lambda(u)\,du`$. This is the required increment distribution. $`\quad\blacksquare`$
 
 The homogeneous process is the special case $`\lambda(t) \equiv \lambda`$, where $`\Lambda(t) = \lambda t`$ and the warped clock is a linear rescaling: $`N(t) = M(\lambda t)`$ runs the unit-rate process at constant speed $`\lambda`$. The increment distribution collapses to $`\text{Poisson}(\lambda(t - s))`$, and the general definition returns to the one we proved from stacked exponentials.
+## The Infinitesimal View
+
+The chapter has told its whole story through gaps: wait times stacked into arrivals, arrivals counted into $`N(t)`$. A complementary view looks at the process through a vanishingly small window of time rather than across a full waiting interval. It recovers two facts the gap picture leaves implicit — that events never occur simultaneously, and that the Poisson count is what one expects from many independent rare chances — and it exposes a second, equivalent way to define the process.
+
+Everything here reads off the increment distribution already in hand. We work in the homogeneous case for clarity; the inhomogeneous case follows by replacing $`\lambda h`$ with $`\int_t^{t+h}\lambda(u)\,du \approx \lambda(t) h`$ throughout. Consider the count over a short interval $`(t, t+h]`$, which is $`\text{Poisson}(\lambda h)`$. Expanding the Poisson probabilities for small $`h`$,
+```math
+\begin{aligned}
+P\big(N(t+h) - N(t) = 0\big) &= e^{-\lambda h} = 1 - \lambda h + o(h), & &\text{(1)}\\
+P\big(N(t+h) - N(t) = 1\big) &= \lambda h\, e^{-\lambda h} = \lambda h + o(h), & &\text{(2)}\\
+P\big(N(t+h) - N(t) \ge 2\big) &= o(h). & &\text{(3)}
+\end{aligned}
+```
+In a short window the process almost always does nothing, occasionally records a single event with probability proportional to the window's width, and essentially never records more than one. Statements (1)–(3) are the infinitesimal view.
+
+### Events do not coincide
+
+Statement (3) says the probability of two or more events in a window of width $`h`$ is negligible compared to $`h`$ itself. Shrinking the window, the chance of a coincidence vanishes faster than the window does, so in the limit no instant carries more than one event. The process increases one step at a time.
+
+This agrees with what the construction already guaranteed. The arrival times are strictly increasing when the wait times are continuous, since each gap is positive with probability one, so two arrivals cannot share an instant. The gap picture forbids coincidences because positive gaps separate the arrivals; the infinitesimal picture forbids them because $`P\big(N(t+h) - N(t) \ge 2\big) = o(h)`$. The two views reach the same conclusion from opposite ends.
+
+### Poisson from many rare chances
+
+Statements (1) and (2) give a second route to the Poisson count, one that explains the distribution's name and matches the classical intuition. Partition an interval $`(s, t]`$ into $`m`$ subintervals of equal width $`h = (t - s)/m`$. Over each subinterval the process, by the expansion above, records one event with probability $`p = \lambda h + o(h)`$ and no event otherwise, the two-or-more case being negligible. Each subinterval is then nearly a Bernoulli trial: event or no event. By independent increments, the trials over disjoint subintervals are independent.
+
+The count over $`(s, t]`$ is the total number of successes across the $`m`$ trials, so it is approximately $`\text{Binomial}(m, p)`$, with expected value
+```math
+m p = m\big(\lambda h + o(h)\big) = \lambda (t - s) + o(1).
+```
+As $`m \to \infty`$ the subintervals shrink, the per-trial probability $`p \to 0`$, and the number of trials $`m \to \infty`$, while the expected count $`m p`$ stays fixed at $`\lambda(t - s)`$. This is the regime of the following classical result.
+
+**Theorem (Poisson limit theorem).** If $`Y_m \sim \text{Binomial}(m, p_m)`$ with $`m p_m \to \mu`$ as $`m \to \infty`$, then $`Y_m \to \text{Poisson}(\mu)`$ in distribution:
+```math
+\lim_{m\to\infty} P(Y_m = k) = e^{-\mu}\frac{\mu^k}{k!}, \qquad k = 0, 1, 2, \dots
+```
+
+Applying it with $`\mu = \lambda(t-s)`$ recovers $`N(t) - N(s) \sim \text{Poisson}(\lambda(t-s))`$, the increment distribution we derived earlier from stacked exponentials. The two derivations show different things. The stacked-exponential proof shows the Poisson count is forced by memoryless gaps; the rare-chance limit shows it is the count of many independent, individually unlikely opportunities for an event — the sense in which the Poisson distribution is a law of rare events.
+
+### The infinitesimal characterization
+
+The expansion that opened this section is itself a second definition. A process satisfying $`N(0) = 0`$, independent increments, and the infinitesimal conditions
+```math
+\begin{aligned}
+P\big(N(t+h) - N(t) = 1\big) &= \lambda(t)\, h + o(h), \\
+P\big(N(t+h) - N(t) \ge 2\big) &= o(h),
+\end{aligned}
+```
+(with the zero-event probability determined as the remainder) is a Poisson process in the sense of our original definition, and conversely. The two definitions are equivalent.
+
+**Note:** We have shown one direction: our process, defined through Poisson-distributed increments, satisfies the infinitesimal conditions, since they are the small-$`h`$ expansion of those increments. The converse — that a process meeting the infinitesimal conditions has Poisson-distributed increments — is proved by converting the infinitesimal conditions into a differential equation for the increment probabilities $`P(N(t+h) - N(s) = k)`$ and solving it. The result is a system whose solution is the Poisson distribution, much as the constant-hazard differential equation earlier in the chapter had the exponential as its solution. A reader wanting the full argument should look for the derivation of the Poisson process from its infinitesimal rates in a text on stochastic processes.
+
+The infinitesimal conditions are often taken as the *starting* definition of the Poisson process, with the Poisson distribution of the counts derived from them. Our development ran the other way, building the process from memoryless wait times and proving the counts are Poisson.

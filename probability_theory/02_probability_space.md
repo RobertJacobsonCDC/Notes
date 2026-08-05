@@ -168,7 +168,7 @@ We have shown that
 P(F_X(X) \le u) &= P\big(\{F_X(X) \le u\} \cap \{X \le x_u\} \;\cup\; \{F_X(X) \le u\} \setminus \{X \le x_u\}\big) \\
 &= P(X \le x_u) + P(D) \\
 &= u + 0 \\
-&= u. \qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\blacksquare
+&= u. \quad\blacksquare
 \end{aligned}
 ```
 
@@ -361,6 +361,6 @@ By the previous Probability Integral Transform theorem, $`F_X(X)`$ is uniform on
 P(S_X(X) < e^{-y}) = e^{-y}.
 ```
 
-This shows that $`S_Y(y) = e^{-y}`$, that is, that $`F_Y(y) = 1 - e^{-y}`$. $`\qquad\qquad\qquad \blacksquare`$
+This shows that $`S_Y(y) = e^{-y}`$, that is, that $`F_Y(y) = 1 - e^{-y}`$. $`\quad\blacksquare`$
 
 **Interpretation:** Where the Probability Integral Transform says every continuous $`X`$ is a uniform in disguise (viewed through the lens $`F_X`$, on the *probability* scale), this theorem says the very same $`X`$ is *also* a unit exponential in disguise (viewed through the lens $`H_X`$, on the *risk-time* scale). These are not two different facts — they are one fact told twice, since $`H_X = -\log(1 - F_X)`$ is nothing but a fixed, deterministic reshaping of $`F_X`$ itself: transforming the uniform $`U = F_X(X)`$ by $`u \mapsto -\log(1-u)`$ produces the unit exponential $`Y = H_X(X)`$. So the "universal disguise" underneath every continuous random variable can be worn on either scale: as a *rank* (the percentile, uniform on $`(0,1)`$) or as an *accumulated hazard* (the risk-clock, exponential with rate $`1`$) — and $`F_X`$, $`H_X`$ are the two dictionaries translating between $`X`$'s own units and that universal currency.
