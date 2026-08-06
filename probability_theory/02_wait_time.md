@@ -47,7 +47,7 @@ The density gives the instantaneous event rate relative to the whole population;
 
 ### The hazard determines the distribution
 
-In Chapter 2 we derived the relationships among these objects and, in particular, the identity
+In Chapter 1 we derived the relationships among these objects and, in particular, the identity
 ```math
 S_X(x) = e^{-H_X(x)} \quad\longleftrightarrow\quad H_X(x) = -\log S_X(x).
 ```

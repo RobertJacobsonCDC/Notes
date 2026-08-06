@@ -12,7 +12,7 @@ T_0 := 0, \qquad T_n := X_1 + X_2 + \cdots + X_n = \sum_{k=1}^n X_k,
 ```
 so that $`T_n`$ is the time at which the $`n`$-th event occurs.
 
-Each $`T_n`$ marks a point on the time axis where an event lands. Because every $X_k$ is nonnegative, the arrival times are nondecreasing, $0 = T_0 \le T_1 \le T_2 \le \cdots$. If in addition the wait times are continuous, then each $X_k > 0$ with probability one, and the arrival times are almost surely strictly increasing. The sequence $`\{T_n\}_{n=0}^\infty`$ is one realization of the event stream: a list of the instants at which something happened.
+Each $`T_n`$ marks a point on the time axis where an event lands. Because every $`X_k`$ is nonnegative, the arrival times are nondecreasing, $`0 = T_0 \le T_1 \le T_2 \le \cdots`$. If in addition the wait times are continuous, then each $`X_k > 0`$ with probability one, and the arrival times are almost surely strictly increasing. The sequence $`\{T_n\}_{n=0}^\infty`$ is one realization of the event stream: a list of the instants at which something happened.
 
 ## The Counting Process
 
@@ -217,7 +217,7 @@ P(R > u \mid X_{N(s)+1} > a) &= P(X_{N(s)+1} - a > u \mid X_{N(s)+1} > a) \\
 ```
 The residual is $`\text{Exponential}(\lambda)`$ regardless of the elapsed amount $`a`$, hence independent of it and of the earlier history. So $`R`$ too is a fresh $`\text{Exponential}(\lambda)`$ gap, independent of the past.
 
-The shifted process is therefore assembled from independent $`\text{Exponential}(\lambda)`$ gaps in exactly the way the original process was, and all of these gaps are independent of the history up to $`s`$. 
+The shifted process is therefore assembled from independent $`\text{Exponential}(\lambda)`$ gaps in exactly the way the original process was, and all of these gaps are independent of the history up to $`s`$.
 
 **Note:** The residual step is the one place the construction uses the exponential specifically, and it is why the Poisson process is built on the exponential rather than some other wait time. Memorylessness makes the partially-elapsed straddling gap indistinguishable from a fresh one; §4 showed the exponential is the only continuous wait time for which this holds. With any other gap distribution the elapsed time $`a`$ would survive in the residual, and the process would not restart cleanly.
 
@@ -225,7 +225,7 @@ The shifted process is therefore assembled from independent $`\text{Exponential}
 
 ### Stationary increments
 
-Because $`N(t) - N(s) = N_s(t - s)`$ and $`N_s`$ is constructed from independent $\text{Exponential}(\lambda)$ wait times, the previous section's result applies to $`N_s`$, and the increment has the distribution computed there:
+Because $`N(t) - N(s) = N_s(t - s)`$ and $`N_s`$ is constructed from independent $`\text{Exponential}(\lambda)`$ wait times, the previous section's result applies to $`N_s`$, and the increment has the distribution computed there:
 ```math
 N(t) - N(s) = N_s(t - s) \sim \text{Poisson}\big(\lambda (t - s)\big).
 ```
@@ -274,7 +274,7 @@ The construction produces only the homogeneous process: stacking i.i.d. exponent
 \Lambda(t) := \int_0^t \lambda(u)\, du.
 ```
 
-$`\Lambda`$ is nondecreasing, and it measures elapsed time not in ordinary units but in accumulated rate — the same reshaping of the time axis by an integrated rate that appeared as the cumulative hazard in the wait-time chapter, where $H_X(x) = \int_0^x h_X(w)\,dw$ turned any lifetime into a standard one. Here $`\Lambda`$ plays the same role for a whole process.
+$`\Lambda`$ is nondecreasing, and it measures elapsed time not in ordinary units but in accumulated rate — the same reshaping of the time axis by an integrated rate that appeared as the cumulative hazard in the wait-time chapter, where $`H_X(x) = \int_0^x h_X(w)\,dw`$ turned any lifetime into a standard one. Here $`\Lambda`$ plays the same role for a whole process.
 
 **Def:** Let $`M`$ be a homogeneous Poisson process of rate $`1`$. The *inhomogeneous Poisson process* with rate function $`\lambda`$ is
 ```math

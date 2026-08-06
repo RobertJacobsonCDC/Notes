@@ -1,0 +1,18 @@
+[plz]
+version = ">=0.0.20"
+
+# Start the VitePress development server with hot reload
+[taskgroup.docs.dev]
+run = "vitepress dev probability_theory"
+env = "pnpm"
+
+# Build the production site
+[taskgroup.docs.build]
+run = "vitepress build probability_theory"
+env = "pnpm"
+
+# Build and serve the production site locally
+[taskgroup.docs.preview]
+depends = "docs.build"
+run = "vitepress preview probability_theory"
+env = "pnpm"
