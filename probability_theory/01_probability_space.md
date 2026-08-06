@@ -1,4 +1,4 @@
-## Probability Spaces
+# Probability Spaces
 
 Probability theory is built on the foundation of measure theory, which provides a powerful generalization of "length" / "area" that is compatible with our intuition of what "should" happen for basic set operations. Usually the underlying representation is kept purely abstract! We can always provide some specific concrete representation if we need to, but we rarely need to, because we are (usually) only interested in the abstract properties they are guaranteed to have regardless of concrete representation.
 
@@ -154,7 +154,7 @@ D := \{x : x_u < x \text{ and } F_X(x) = u = F_X(x_u)\} = \{F_X(X) \le u\} \setm
 
 **Claim.** $`D`$ is either empty or an interval of the form $`(x_u, c]`$.
 
-*Proof of Claim.* Suppose $`a, c \in D`$ with $`a \le c`$, and suppose $`b`$ is some point with $`a \le b \le c`$. Since $`F_X`$ is nondecreasing, $`F_X(a) \le F_X(b) \le F_X(c)`$. By assumption, $`x_u < a \implies x_u < b`$. Also, $`F_X(a) = F_X(c) = u \implies F_X(b) = u`$. This shows that if $`d \in D`$, then $`(x_u, d) \subset D`$. Let $`c := \sup\{x : x \in D\}`$. By continuity of $`F_X`$, $`c \in D`$. Thus, $`D = (x_u, c]`$. $`\quad\blacksquare`$
+*Proof of Claim.* Suppose $`a, c \in D`$ with $`a \le c`$, and suppose $`b`$ is some point with $`a \le b \le c`$. Since $`F_X`$ is nondecreasing, $`F_X(a) \le F_X(b) \le F_X(c)`$. By assumption, $`x_u < a \implies x_u < b`$. Also, $`F_X(a) = F_X(c) = u \implies F_X(b) = u`$. This shows that if $`d \in D`$, then $`(x_u, d) \subset D`$. Let $`c := \sup\{x : x \in D\}`$. By continuity of $`F_X`$, $`c \in D`$. Thus, $`D = (x_u, c]`$. $`\quad\square`$
 
 If $`D`$ is empty, $`P(D) = 0`$. Otherwise,
 ```math
@@ -337,7 +337,7 @@ Observe that the survival $`S(x) := P(x < X) \xrightarrow{x\to\infty} 0`$. There
 
 **Akshually:** $`H_X`$ can be defined for any $`F_X`$, even when $`f_X`$ doesn't exist, and thus $`h_X`$ doesn't exist, but it requires a more technical and sophisticated definition. It turns out the condition on $`H_X`$ for $`h_X`$ to exist is the same one needed on $`F_X`$ for $`f_X`$ to exist. In fact:
 
-> $`H_X(x) = \int_{-\infty}^x h(w)\,dw`$ if and only if $`H_X`$ is absolutely continuous if and only if $`F_X`$ is absolutely continuous if and only if $`F_X(x) = \int_{-\infty}^x f_X(w)\,dw`$.
+> $`H_X(x) = \int_{-\infty}^x h_X(w)\,dw`$ if and only if $`H_X`$ is absolutely continuous if and only if $`F_X`$ is absolutely continuous if and only if $`F_X(x) = \int_{-\infty}^x f_X(w)\,dw`$.
 
 
 ## Time-Rescaling by the Cumulative Hazard

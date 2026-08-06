@@ -402,7 +402,9 @@ TSWLatexianTemp*
 # xwatermark package
 *.xwm
 
-# REVTeX puts footnotes in the bibliography by default, unless the nofootinbib
-# option is specified. Footnotes are the stored in a file with suffix Notes.bib.
-# Uncomment the next line to have this generated file ignored.
-#*Notes.bib
+# VitePress
+node_modules/
+probability_theory/.vitepress/cache/
+probability_theory/.vitepress/dist/
+
+pnpm-lock.yaml
