@@ -210,7 +210,7 @@ Let $\lambda = \lambda(t)$ be some non-negative real-valued rate function of a P
 Let $c(t)$ be the cumulative rate function, s.t.
 
 ```math
-c(t) = \int_0^t r(s)ds 
+c(t) = \int_0^t \lambda(s)ds 
 ```
 With $\lambda(t)$ a non-negative real-valued function, the cumulative of this must always be monotonically increasing. 
 
@@ -244,18 +244,18 @@ P(c(T) > y) = P(T > d(y)) = S(d(y)) = e^{-c(d(y))} = e^{-y} = S^{*}(y)
 
 where $S^{*}(y)$ is the survival function of events in the cumulative space. 
 
-This means that $c(T) = y \sim Exp(1)$, i.e. inter event distances in the cumulative space can be sampled with an exponential distribution of rate equal to $1$. 
+This means that $c(T) = y \sim Exp(1)$, i.e. inter event distances in the cumulative space can be sampled with an exponential distribution of rate equal to $1$.  $`\hspace{3cm}\Box`$
 
 
 Now, what does this mean for us in terms of being able to sample the time to the next infection when the rate process is inhomogeneous?
 
 Since we can sample the inter event distances in the cumulative space with $\sim Exp(1)$, then we can get the cumulative values $y_i$ by summing the sampled inter event values $\Delta y_i$, and invert each $y_i$ with $d(y)$ to get the time for each event $t_i$. 
 
-Algorithmically, this means:
+Algorithmically, this means if we want to identify the times of a sequence of events from an inhomogeneous Poisson process, we can 
 
-1. Sample $\Delta y_i$ from $Exp(1)$
-2. Calculate $y_i$ as $y_i = \Sigma_{i' = 1}^i \Delta y_{i'} $
-3. Invert $y_i$ to get $t_i$ through $t_i = d(y_i)$
+1. Sample the scaled inter-interval "times" $\Delta y_i$ from $Exp(1)$
+2. Calculate the scaled times $y_i$ as $y_i = \Sigma_{i' = 1}^i \Delta y_{i'} $
+3. Invert $y_i$ to get the true times $t_i$ through $t_i = d(y_i)$
 4. Calculate the inter event times $\Delta t_i = t_i - t_{i-1}$
 
 where $\Delta t_1 = t_1 - t_0 = t_1 - 0 = t_1$ since the time of the zeroeth event would be 0.
