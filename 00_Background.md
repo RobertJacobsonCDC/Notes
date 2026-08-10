@@ -164,9 +164,9 @@ This variable clock's measured time is $`\int_0^t \lambda(s) ds`$, the cumulativ
 
 Let's reframe this in the context of an infectious disease.  The time until an individual gets infected is a random variable.  If we measure in terms of the cumulative exposure to the pathogen, the cumulative exposure $`Y`$ measured by the variable clock at the first successful transmission is exponentially distributed with constant rate.  However, since the exposure rate itself varies in time (based on behavior, amount of infection present, etc), to calculate the time of infection, we need to determine the real time $`X`$ when the variable clock reaches $`Y`$, that is the time $`X`$ at which $`\Lambda(X) = \int_0^X \lambda(s) ds`$ equals $`Y`$.
 
-Now let's reframe this mathematically:
+Now let's reframe this mathematically.  We are focused on the distribution of the waiting time $`X`$ until the first event.
 
-If $`\lambda = \lambda(t)`$ is an integrable function and $`X ∼ \text{Exp}(\lambda)`$, then the PDF is $`f_X(t) = \lambda(t) e^{-\int_0^t \lambda(s) ds}`$, and the CDF is $`F_X(t) = 1 - e^{-\int_0^t \lambda(s) ds}`$. (Verify using the Fundamental Theorem of Calculus that $`F(t) = \int_0^tf(s) ds`$.) Let $`\Lambda(t)`$ be the cumulative rate function defined by
+If $`\lambda = \lambda(t)`$ is an integrable function and $`X ∼ \text{Exp}(\lambda)`$, then the PDF of $`X`$ is $`f_X(t) = \lambda(t) e^{-\int_0^t \lambda(s) ds}`$, and the CDF is $`F_X(t) = 1 - e^{-\int_0^t \lambda(s) ds}`$. (Verify using the Fundamental Theorem of Calculus that $`F(t) = \int_0^tf(s) ds`$.) Let $`\Lambda(t)`$ be the cumulative rate function defined by
 
 $`\displaystyle\hspace{2cm}  \Lambda(t) := \int_0^t \lambda(s)  ds`$
 
