@@ -81,7 +81,11 @@ First recall some definitions.
 
  - The distribution of a positive continuously distributed r.v. $`X`$ is **memoryless** if $`P(X>t) = P(X > s+t \mid X > s)`$ for all $`s,  t\geq 0`$.
 
-In words, the probability that an event occurs after a time $`t`$ (from the start) is the same as the probability that it occurs after an additional time $`t`$ from a time $`s`$ given that it has not occurred by time $`s`$. The time we have to wait for an event is independent of the time we have already waited.
+In words, if we start waiting at time $`0`$ for an event to happen, the probability that the time $`X`$ of the first occurence is at least $`t`$ is $`P(X>t)`$.  To say the distribution is **memoryless** means that if the event has not happened by time $`s`$, then the probability that it does not happen in the next $`t`$ units of time (that is, by time $`t+s`$) is still $`P(X>t)`$.  That is, knowing how long we have waited for an event that has not yet occured gives no information aout how much longer we must wait before it occurs.  
+
+An example of a memoryless discrete distribution comes from rolling a fair die.  If it has not come up $`1`$ after $`n`$ rolls, then our prediction for how many additional rolls are needed until the first time it comes up $`1`$ is the same as if we were about to do our first roll.
+
+The so-called gambler's fallacy that if a result has not happened recently its probability is increasing is based on denying the memoryless property of these distributions.
 
 **Lemma:** The distribution of a positive continuously distributed r.v. $`X`$ is memoryless iff $`P(0\lt  X \lt  t) = P(s\lt  X \lt  t+s \mid X > s)`$.
 
@@ -121,6 +125,31 @@ $`\to P(X > at) = P(X>t)^a`$ for all $`a\in \mathbb{N}`$.
 Similarly, by substituting $`\displaystyle t=\frac{\hat{t}}{a}`$, we can also show that $`P(X > \frac{t}{b}) = P(X>t)^\frac{1}{b}`$ for all $`b\in \mathbb{N}`$. Thus, $`P(X > qt) = P(X>t)^q`$ for all $`q \in \mathbb{Q}`$. By continuity,  $`P(X > rt) = P(X>t)^r`$ for all $`r\in \mathbb{R}`$.
 
 This says that as a function of $`r`$, $`P(X>r)`$ is an exponential function of the form $`P(X>1)^r`$.  Or, swapping $`t`$ for $`r`$, $`P(X>t) = e^{-\lambda t}`$, where $`\lambda = - \ln(P(X>1)) = -\ln(S(1))`$. Thus, we have shown that $`S(t) = e^{-\lambda t}`$ for some $`\lambda > 0`$. The CDF is thus $`F(t) = 1 - S(t) = 1 - e^{-\lambda t}`$. The PDF is $`f(t) = \frac{dF}{dt}(t) = \lambda e^{-\lambda t}.\hspace{5cm}\Box`$
+
+
+**Another Alternate Proof**
+Outline: The intuition behind this proof is based on dividing $`[0,t]`$ into many small intervals of length $`a=t/n`$ for some large integer $n$ and noting that the event does not happen in $`[0,t]`$ iff it does not happen in any subinterval.  We can estimating the probability that an event does not happen in each interval and use this to estimate the probability that the event does not happen in $[0,t]$.  We then take $`a \to 0`$ (or equivalently $`n \to \infty`$) to find $`P(X>t)`$.
+
+
+Steps:
+
+- Following steps in the previous proof, $`P(X>an) = P(X>a)^n`$ for all $`n \in \mathbb{N}`$. 
+
+- Additionally, if $`P(X>0)=1`$, then $`P(X>a) = 1-\int_0^a f_X(w) dw \approx 1- f_X(0) a`$ where the error in the approximation is $\mathcal{o}(a^2)$
+
+Then for any $`t>0`$, we can write $`t=an`$ where $`n \in \mathbb{N}`$ can be arbitrarily large, and $`a=t/n`$ gets small as $`n`$ grows.
+
+$` P(X>t) = (1 - a f_X(0) + \mathcal{o}(a^2))^n = ([1-a f_X(0)] + \mathcal{o}(a^2))^n`$
+
+$`P(X>t) = (1-af_X(0))^n + \cdots`$
+
+The neglected terms (the $`\cdots`$) are of size $na^2$, $n^2a^4$, etc.  Since $`a = t/n`$, the value of $na^2$ is $t^2/n$.  
+
+We hold $`t`$ fixed, but take the number of subintervals $n \to \infty$. The neglected terms will go to zero and $`(1-\frac{t}{n} f_X(0))^n \to e^{-t f_X(0)}`$.
+
+Thus 
+
+$`P(X>t) = e^{-\lambda t}`$ where $`\lambda = f_X(0)`$.$`\hspace{5cm}\Box`$
 
 
 # 0.2: Time Scaling
