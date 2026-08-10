@@ -2,38 +2,41 @@
 
 ## Simple Poisson Process
 
-Assume a person has intrinsic infectiousness of 1 person per day for time $`[0, 2]`$.
+Assume a person has intrinsic infectiousness of 2 people per day for time $`[0, 1]`$.
 
-By definition, this means that if $`t \in [0,2)`$, and $`\Delta t`$ is very small, then the probability of transmitting in $`[t, t+\Delta t]`$ is approximately $`1 \Delta t`$.  More precisely the error is making this approximation is small compared to $`\Delta t`$ for small enough $`\Delta t`$:
+By definition, this means that if $`t \in [0,1)`$, and $`\Delta t`$ is very small, then the probability of transmitting in $`[t, t+\Delta t]`$ is approximately $`2 \Delta t`$.  More precisely the error is making this approximation is small compared to $`\Delta t`$ for small enough $`\Delta t`$:
 
-$`\lim_{\Delta t \to 0} \frac{P(\text transmit in [t+\Delta t])}{\Delta t} = 1`$
+$`\lim_{\Delta t \to 0} \frac{P(\text transmit in [t+\Delta t])}{\Delta t} = 2`$
 
 
-### Q: How would you simulate the probability and time of infection for a single susceptible contact?
+### Q: How would you simulate the probability and time of infection for a single susceptible contact (for which we care only about the first event)?
 
-**Answer:** Sample $`\Delta t \sim \text{Exp}(1)`$. If $`\Delta t \lt  2`$, then the time between the infector becoming infected and this first infection is $`\Delta t`$. The person is infected at time $`\Delta t`$ after the infector was infected. Otherwise, the person is not infected.
+**Answer:** Sample $`\Delta t \sim \text{Exp}(2)`$. If $`\Delta t \lt  1`$, then the waiting time between the infector becoming infected and this first infection is $`\Delta t`$. The person is infected at time $`\Delta t`$ after the infector was infected. Otherwise, the person is not infected.
 
-### Q: How would you simulate a Poisson process with this same rate function?
+### Q: How would you simulate a Poisson process (for which multiple events can occur) with this same rate function?
 
 ```math
 r(t) = \begin{cases}
-1, & t \in [0, 2] \\
+2, & t \in [0, 1] \\
 0, & \text{else}
 \end{cases}
 ```
 
-**Option 1:** First compute the number of events, then distribute in time.
-Sample from a $`\text{Poisson}(2) \to n`$. Then sample $`n`$ times uniformly in $`[0, 2]`$ to get the times for the events.
+**Option 1:** First compute the number of events, then distribute in time.  
 
-*Intuition:* Case $`n = 1`$: We are assuming $`\Delta t_1 \lt  2`$ AND $`\Delta t_1 + \Delta t_2 > 2`$.
+Given a Poisson process of rate $2$ for $1$ units of time, the number that occur have a Poisson distribution. 
 
-**Option 2:** Iteratively sample inter event times $`\Delta t_i \sim \text{Exp}(1)`$. Then the times are $`\Delta t_1, \Delta t_1 + \Delta t_2, \Delta t_1 + \Delta t_2 + \Delta t_3,\dots`$ up to when they exceed 2 (past which, our rate function says that no infection attempts are expected with a rate of 0).
+Sample the number of events $`n`$ from a $`\text{Poisson}(2)`$ distribution. Then sample $`n`$ times uniformly in $`[0, 1]`$ to get the event times.
+
+*Intuition:* Case $`n = 1`$: We are assuming $`\Delta t_1 \lt  1`$ AND $`\Delta t_1 + \Delta t_2 > 1`$.
+
+**Option 2:** Iteratively sample inter event times $`\Delta t_i \sim \text{Exp}(2)`$. Then the times are $t_1=`\Delta t_1`$,  $`t_2=t_1 + \Delta t_2`$,  $`t_3= t_2 + \Delta t_3$, $\ldots`$ up to when they exceed 1 (past which, our rate function says that no infection attempts are expected with a rate of 0).
 
 **Option 3**: Time scaling. We can sample the inter event times using the cumulative rate function $c(t)$. For rate function $r(t)$ (equivalent to the hazard function in this case)
 
 ```math
 r(t) = \begin{cases}
-1, & t \in [0, 2] \\
+2, & t \in [0, 1] \\
 0, & \text{else}
 \end{cases}
 ```
@@ -42,12 +45,12 @@ the cumulative rate function $c(t)$ is
 
 ```math
 c(t) = \begin{cases}
-t, & t \in [0, 2] \\
+2t, & t \in [0, 1] \\
 2, & else
 \end{cases}
 ```
 
-A true inverse function of $c(t)$ doesn't exist $\forall t \in [0, \infty)$, but over the interval $[0, 2]$ the inverse can be defined as $d(t)$ = t. Why? If $d(t) = t$, then $d(c(t)) = c(t) = t$ and similarly $c(d(t)) = d(t) = t$. 
+A true inverse function of $c(t)$ doesn't exist $\forall t \in [0, \infty)$, but over the interval $[0, 1]$ the inverse can be defined as $d(y)$ = y/2. (Why? If $d(y) = y/2$, then $d(c(t)) = c(t)/2 = 2t/2=t$ and similarly $c(d(t)) = 2d(t) = 2t/2=t$.)
 
 Recall that inter event distances in the cumulative space can be sampled as $\Delta y_i \sim \text{Exp(1)}$. Iteratively sample $\Delta y_i$. Then the points in cumulative space are $\Delta y_1, \Delta y_1 + \Delta y_2, \Delta y_1 + \Delta y_2 + \Delta y_3, ...$, up to when they exceed 2 (the maximum value of $c(t)$, past which there is no valid inverse function). We'll call these $y_i$. 
 
@@ -60,11 +63,11 @@ If we simulate from a Poisson process of rate $`r(t)`$, then the probability of 
 ## Rejection Sampling and Time Scaling
 
 Consider how to handle changes:
-Suppose at a random time $`t^{\text{*}} \in [0, 2]`$, this person will wear a perfect facemask.
+Suppose at some time $`t^{\text{*}} \in [0, 1]`$, this person will wear a perfect facemask.
 
 ### Q: How does this change intrinsic transmissibility, and how do we simulate?
 
-**Option 1:** Rejection sample. You sample according to Option 2. Then at the time of the purported event, if it is after the facemask time $`t^{\text{*}}`$, you reject it (ignore it).
+**Option 1:** Rejection sample. You sample as before (say, according to Option 2 above). Then at the time of the purported event, if it is after the facemask time $`t^{\text{*}}`$, you reject it (ignore it).
 
 What if the facemask isn’t perfect? Say it only prevents transmission 30% of the time.
 
@@ -74,22 +77,22 @@ What if the facemask isn’t perfect? Say it only prevents transmission 30% of t
 This 30% is not the reduction in the probability of infecting a single contact. It is the reduction in the probability of a single infection attempt succeeding.
 
 
-**Option 2**: Time scaling. Rather than sampling inter event times iteratively directly as $x_i\sim \text{Exp(1)}$ and summing $x_i$ to get event times, let's sample the inter event distances in the cumulative space as $\Delta y_i \sim \text{Exp(1)}$.
+**Option 2**: Time scaling. Rather than sampling inter event times iteratively directly as $\Delta t_i\sim \text{Exp(2)}$ and summing $\Delta t_i$ to get event times, let's sample the inter event distances in the cumulative space as $\Delta y_i \sim \text{Exp(1)}$.
 
 Then calculate $y_i = \Sigma_{i' = 1}^{i} \Delta y_{i'}$
 
 Each $y_i$ can be inverted with $d(t)$ to get $t_i = d(y_i)$. 
 
-Then the inter event times can be calculated as $\Delta t_i = t_i - t_{i-1}$, where $t_0 = 0$ for the time of the zeroeth event.
+Then the inter event times can be calculated as $\Delta t_i = t_i - t_{i-1}$, where $t_0 = 0$ for the start time.
 
 When an event causes the rate function to change after some time $`t^{\text{*}}`$, rather than rejecting events after $`t^{\text{*}}`$ with probability 0.3, we can instead re-evaluate what each value $y_i$ in the cumulative space maps to in the time space for events $t_i$ scheduled to happen after $`t^{\text{*}}`$. Since the rate function has changed after $`t^{\text{*}}`$, for those events we calculate $t_i$ with the inverse of the new cumulative rate function, $`t_i = d^{\text{*}}(y_i)`$, and calculate the inter event times as $\Delta t_i = t_{i} - t_{i-1}$. Reschedule events with the new event times. Note that our inverse function $`d^{\text{*}}(t)`$ will be equal to $d(t)$ before $`t^{\text{*}}`$.
 
-Let's look back at our face mask wearing scenario and walk through what this means for forecasting. Imagine that at a random time $t^{\text{*}} \in [0, 2]$ an infectious agent wears an imperfect mask that is effective at preventing 30% of infections. Like the previous examples the rate function $r(t)$ is 1 absent any interventions. Now we write
+Let's look back at our face mask wearing scenario and walk through what this means for forecasting. Imagine that at some time $t^{\text{*}} \in [0, 1]$ an infectious agent begins wearing an imperfect mask that is effective at preventing 30% of infections. Like the previous examples the rate function $r(t)$ is 2 absent any interventions. Now we write
 
 ```math
 r(t) = \begin{cases}
-1, & t \in [0, t^{\text{*}}] \\
-0.7, & t \in [t^{\text{*}}, 2] \\
+2, & t \in [0, t^{\text{*}}] \\
+1.4, & t \in [t^{\text{*}}, 1] \\
 0, & \text{else}
 \end{cases}
 ```
@@ -98,19 +101,19 @@ then the cumulative rate function is
 
 ```math
 c(t) = \begin{cases}
-t, & t \in [0, t^{\text{*}}] \\
-0.7t + 0.3t^{\text{*}}, & t \in [t^{\text{*}}, 2]\\
-1.4 + 0.3t^{\text{*}}, & \text{else}
+2t, & t \in [0, t^{\text{*}}] \\
+2t^{\text{*}} + 1.4(t-t^{\text{*}}) = 1.4t+0.6t^*,  & t \in [t^{\text{*}}, 1]\\
+1.4 + 0.6t^{\text{*}}, & \text{else}
 \end{cases}
 ```
 
 and the inverse function will be
 
 ```math
-d(t) = \begin{cases}
-t, & t \in [0, t^{\text{*}}] \\
-\frac{t - 0.3t^{\text{*}}}{0.7}, & t \in [t^{\text{*}}, 2] \\
-2, & \text{else}
+d(y) = \begin{cases}
+y/2, & y \in [0, 2t^{\text{*}}] \\
+\frac{y-2t^{\text{*}}}{1.4}+t^{\text{*}} = \frac{y - 0.6t^{\text{*}}}{1.4}, & y \in [2t^{\text{*}}, 1.4+0.6t^{\text{*}}] \\
+\text{undefined}, & \text{else}
 \end{cases}
 ```
 
@@ -118,13 +121,13 @@ Before $t^{\text{*}}$ would have been determined, we have done the following:
 
 1. Iteratively sample $\Delta y_i \sim \text{Exp(1)}$
 2. Calculate $y_i$ as $y_i = \Sigma_{i' = 1}^{i} \Delta y_{i'}$
-3. Inverted $y_i$ with $d(t)$ to get $t_i$. Since $d(t) = t$, then we calculate $t_i$ as $t_i = y_i$. Once $t_i > 2$, stop sampling $\Delta y_i$.
+3. Inverted $y_i$ with $d(y_i)$ to get $t_i$. Since $d(y_i) = t_i$. Once $y_i > 2$, stop sampling $\Delta y_i$.
 4.  The inter event times are $\Delta t_i = t_i - t_{i-1}$.
 
 Once we know what $`t^{\text{*}}`$ is, for every value $`t_i > t^{\text{*}}`$, do the following:
 
-5. Map $t_i$ back to $y_i$ using the original cumulative function $c(t) = t$. In this example, $c(t) = t$, thus $y_i = t_i$.
-6. Invert $y_i$ with $`d(t) = \frac{t - 0.3t^{\text{*}}}{0.7}`$ to get the new forecasted times for infection attempts, i.e., $`t_i^{\text{new}} = d^{\text{*}}(y_i) = \frac{y_i - 0.3t^{\text{*}}}{0.7}`$.
+5. Map $t_i$ back to $y_i$ using the original cumulative function $c(t) = 2t$. In this example, $c(t) = 2t$, thus $y_i = 2t_i$.
+6. Invert $y_i$ with $`d(y) = \frac{t - 0.6t^{\text{*}}}{1.4}`$ to get the new forecasted times for infection attempts, i.e., $`t_i^{\text{new}} = d^{\text{*}}(y_i) = \frac{y_i - 0.6t^{\text{*}}}{1.4}`$.
 7. The forecasted times are now $`t_1, ..., t_i^{\text{new}}`$ for all $t \in [0, 2]$. Once $`t^{\text{new}}_i > 2`$, stop inverting $y_i$ to get $`t^{\text{new}}_i`$ since the infectious agent is no longer infectious when $t > 2$. 
 8.  The inter event times are $\Delta t_i = t_i - t_{i-1}$, switching to $`\Delta t^{\text{new}}_i = t^{\text{new}}_i - t^{\text{new}}_{i-1}`$ when $`t_i > t^{\text{*}}`$. More specifically, the first inter event time calculated using the new inverse cumulative will be $`\Delta t^{\text{new}}_i = t^{\text{new}}_i - t_{i-1}`$, where $`t^{\text{new}}_i \geq t^{\text{*}}`$ and $`t_i < t^{\text{*}}`$.
 
@@ -132,12 +135,14 @@ For example, suppose we had forecasted $`\Delta y_i = \{0.11, 0.23, 0.74, 0.38, 
 
 1. $`\Delta y_i = \{ 0.11, 0.23, 0.74, 0.38, 0.25, 0.19, 0.53\}`$
 2. $`y_i = \{ 0.11, 0.34, 1.08, 1.46, 1.71, 1.90 , 2.43\}`$
-3. Invert $y_i$ with $d(t) = t$ to get $t_i$. In this trivial example, $`t_i = \{ 0.11, 0.34, 1.08, 1.46, 1.71, 1.90, 2.43\}`$. The last event time is past $t = 2$, so drop it from the forecasted infection attempt times. 
-4. The inter event times are $`\Delta t_i = \{ 0.11, 0.23, 0.74, 0.38, 0.25, 0.19 \}`$. 
-5. Imagine that before $t = 1.5$, another random event lets us know that $t^{\text{*}} = 1.5$. Instead of accepting $t_5 = 1.71$ and $t_6 = 1.90$, we map those values back to the cumulative space for $y_5 = 1.71$ and $y_6 = 1.90$. 
-6. Since an intervention has changed the rate and cumulative rate functions past $t = 1.5$, we'll use the modified cumulative rate function to reassess the forecasted times. Now $t_5 = \frac{y_5 - 0.3 * 1.5}{0.7} = \frac{1.26}{0.7} = 1.80$ and $t_6 = \frac{y_6 - 0.3 * 1.5}{0.7} = \frac{1.45}{0.7} \approx 2.07$. We drop the forecasted time $t_6$ since $t_6 > 2$, past which our infectious agent is no longer infectious.
-7. Our forecasted times are now $`t_i = \{ 0.11, 0.34, 1.08, 1.46, 1.80\}`$
-8. Our inter event times are now $`\Delta t_i = \{ 0.11, 0.23, 0.74, 0.38, 0.34\}`$
+3. Invert $y_i$ with $d(y) = y/2$ to get $t_i$. In this trivial example, $`t_i = \{ 0.055, 0.17, 0.54, 0.73, 0.855, 0.95, 1.215\}`$. The last event time is past $t = 1$, so we drop it from the forecasted infection attempt times. 
+4. The inter event times are $`\Delta t_i = \{ 0.055, 0.115, 0.37, 0.19, 0.125, 0.095 \}`$. 
+5. Imagine that before $t = 0.75$, another random event lets us know that $t^{\text{*}} = 0.75$. Instead of accepting $t_5 = 0.855$ and $t_6 = 0.95$, we go back to the cumulative space for $y_5 = 1.71$ and $y_6 = 1.90$. 
+6. Since an intervention has changed the rate and cumulative rate functions past $t = 0.75$, we'll use the modified cumulative rate function to reassess the forecasted times. Now our new $t_5$ is $t_5 = \frac{y_5 - 0.6 * 0.75}{1.4} = \frac{1.26}{1.4} = 0.9$. However, $y_6>1.4+0.6t^{\text{*}}$, so there is no $t_6$ (or equivalently $t_6 > 1$, past which our infectious agent is no longer infectious).
+7. Our forecasted times are now $`t_i = \{ 0.055, 0.17, 0.54, 0.73, 0.9\}`$
+8. Our inter event times are now $`\Delta t_i = \{ 0.055, 0.115, 0.37, 0.19, 0.17\}`$
+
+Conceptually, we have found the amount of cumulative "shedding" at which a transmission occurs.  Until the mask is put on, there is no effect.  Once the mask is put on, the cumulative shedding decreases, and so we must find the times at which the cumulative shedding hits the pre-calculated thresholds.  This delays $t_5$, and the cumulative shedding never reaches the threshold that would give $t_6$.
 
 *Observation:*
 If the person took an antiviral that changes their new infectiousness, you could assume this is the person’s new intrinsic infectiousness. Sometimes, you may *have* to:
@@ -145,7 +150,7 @@ Imagine viral rebound. We have to reschedule if it *increases* future transmissi
 
 ## Distributing Infection Hazard
 
-Using the example above of a person who is uniformly infectious on $`[0, 2]`$,
+Using the example above of a person who is uniformly infectious on $`[0, 1]`$,
 suppose an infected person lives in a house with 2 other people, and they stay in that house for all time during the course of the infection.
 
 ### How should we model the infection process of those two people in terms of an inhomogeneous Poisson process?
