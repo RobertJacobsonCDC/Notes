@@ -127,6 +127,16 @@ This says that as a function of $`r`$, $`P(X>r)`$ is an exponential function of 
 
  #### A Poisson process is **inhomogeneous** if the rate $`\lambda`$ is not constant over time.
 
+We first present an explanation of the intuition underlying the idea of time scaling of inhomogeneous Poisson processes.
+
+For a **homogeneous** Poisson process, the time to the next event has an exponential distribution whose rate is the rate of the process.  We will be able to rescale our measurement time so that an inhomogeneous Poisson process also has an exponential distribution in our rescaled time.  Intuitively, the way we do this is to consider a clock that ticks at rate $\lambda(t)$, with the clock's measured time passing faster when the rate is higher.  For this clock, the measured "time" to the first event is exponentially distributed.  
+
+This variable clock's measured time is $`\int_0^t \lambda(s) ds`$, the cumulative hazard.  The cumulative hazard when the first event occurs is exponentially distributed with rate $1$.  The time of that event is the time at which the cumulative hazard reaches the threshold.
+
+Let's reframe this in the context of an infectious disease.  The time until an individual gets infected is a random variable.  If we measure in terms of the cumulative exposure to the pathogen, the cumulative exposure $`Y`$ measured by the variable clock at the first successful transmission is exponentially distributed with constant rate.  However, since the exposure rate itself varies in time (based on behavior, amount of infection present, etc), to calculate the time of infection, we need to determine the real time $`X`$ when the variable clock reaches $`Y`$, that is the time $`X`$ at which $`\Lambda(X) = \int_0^X \lambda(s) ds`$ equals $`Y`$.
+
+Now let's reframe this mathematically:
+
 If $`\lambda = \lambda(t)`$ is an integrable function and $`X ∼ \text{Exp}(\lambda)`$, then the PDF is $`f_X(t) = \lambda(t) e^{-\int_0^t \lambda(s) ds}`$, and the CDF is $`F_X(t) = 1 - e^{-\int_0^t \lambda(s) ds}`$. (Verify using the Fundamental Theorem of Calculus that $`F(t) = \int_0^tf(s) ds`$.) Let $`\Lambda(t)`$ be the cumulative rate function defined by
 
 $`\displaystyle\hspace{2cm}  \Lambda(t) := \int_0^t \lambda(s)  ds`$
@@ -139,21 +149,25 @@ $`\displaystyle\hspace{2cm} F_X(t) = 1 - e^{-\Lambda(t)}`$.
 
 
 
-**Theorem:** Let $`\lambda = \lambda(t)`$ be some rate function. If $`X \sim \text{Exp}(1)`$, then $`d(X) \sim \text{Exp}(\lambda)`$, where $`d = \Lambda^{-1}`$, the function inverse of $`\Lambda`$.
+**Theorem:** Let $`\lambda = \lambda(t)`$ be some rate function. If $`Y \sim \text{Exp}(1)`$, then $`X=d(Y) \sim \text{Exp}(\lambda)`$, where $`d = \Lambda^{-1}`$, the function inverse of $`\Lambda`$.
 
-**Example:** Suppose $`\lambda(t) = 0.7`$. Then $`\Lambda(t) := \int_0^t 0.7  ds = 0.7t`$, and $`d(t) = \frac{t}{0.7}`$. By the theorem, if $`X \sim \text{Exp}(1)`$, then $`\frac{1}{0.7}X \sim \text{Exp}(0.7)`$.
+In the variable clock analogy, if the measured time $`Y`$ to the first event as measured by the variable clock is exponentially distributed with rate $1$, then the real time of the first event is $`X=\Lambda^{-1}(Y)`$ and it has distribution $`X \sim \text{Exp}(\lambda)`$
+
+**Example:** Suppose $`\lambda = 0.7`$ is homogeneous. Then $`Y=\Lambda(X) := \int_0^X 0.7  ds = 0.7X`$, and $`X=d(Y) = \frac{Y}{0.7}`$. By the theorem, if $`Y \sim \text{Exp}(1)`$, then $`X=\frac{1}{0.7}Y \sim \text{Exp}(0.7)`$.
 
 This says that for a Poisson process, if the rate ($`\lambda=0.7`$) is smaller (than $`1`$ in this case), the wait time until the next event ($`\frac{1}{0.7}X`$) is larger.
 
-**Proof:** We perform a change of variables $`Y=d(X)`$. By definition,
 
-$`F_Y(y) := P(Y \leq y) = P(d(X) \leq y)  \overset{\star}{=} P(X \leq \Lambda(y)) =: F_X(\Lambda(y))`$.
+**Proof:** We perform a change of variables $`X=d(Y)`$. By definition,
+
+$`F_X(x) := P(X \leq x) = P(d(Y) \leq x)  \overset{\star}{=} P(Y \leq \Lambda(x)) =: F_Y(\Lambda(x))`$.
 
 Now we use the Chain Rule to differentiate:
 
-$`f_Y(y) := \frac{d}{dy}\left[ F_Y(y) \right] = \frac{d}{dy}\left[ F_X(\Lambda(y)) \right] = f_X(\Lambda(y)) \cdot \frac{d}{dy}\left[ \Lambda(y) \right]`$.
+$`f_X(x) := \frac{d}{dx}\left[ F_X(x) \right] = \frac{d}{dx}\left[ F_Y(\Lambda(x)) \right] = f_Y(\Lambda(x))) \cdot \frac{d}{dx}\left[ \Lambda(x) \right]`$.
 
-By the Fundamental Theorem of Calculus, $`\frac{d}{dy}\left[ \Lambda(y) \right] = \lambda(y)`$. Thus, $`f_Y(y) = \lambda(y)e^{-\Lambda(y)}`$, the PDF of the distribution $`\text{Exp}(\lambda)`$. This shows that $`Y = d(X) \sim \text{Exp}(\lambda)`$. $`\hspace{3cm}\Box`$
+By the Fundamental Theorem of Calculus, $`\frac{d}{dx}\left[ \Lambda(x) \right] = \lambda(x)`$. Thus, $`f_X(x) = \lambda(x)e^{-\Lambda(x)}`$, the PDF of the distribution $`\text{Exp}(\lambda)`$. This shows that $`X = d(Y) \sim \text{Exp}(\lambda)`$. $`\hspace{3cm}\Box`$
+
 
 The equality marked with a '$`\star`$' needs justification, because it's not true in general. If $`a \lt  b`$, what conditions on a function $`f`$ guarantee that $`f(a) \leq f(b)`$? If ($`\star`$) is to hold, $`\Lambda(t)`$ must satisfy those conditions.
 
