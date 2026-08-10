@@ -4,12 +4,9 @@
 
 Assume a person has intrinsic infectiousness of 1 person per day for time $`[0, 2]`$.
 
-By definition, I mean:
-$`\displaystyle \frac{d}{dt} P(\text{Transmit at time } t \mid \text{Have not transmitted by time } t)  = 1 `$.
-This means:
-```math
-\displaystyle \lim_{\varepsilon \to 0} \frac{P(\text{transmit in } [t, t + \varepsilon] \mid \text{have not transmitted by time } t)}{\varepsilon}.
-```
+By definition, this means that if $`t \in [0,2)`$, and $`\Delta t`$ is very small, then the probability of transmitting in $`[t, t+\Delta t]`$ is approximately $`1 \Delta t`$.  More precisely the error is making this approximation is small compared to $`\Delta t`$ for small enough $`\Delta t`$:
+
+$`\lim_{\Delta t \to 0} \frac{P(\text transmit in [t+\Delta t])}{\Delta t} = 1`$
 
 
 ### Q: How would you simulate the probability and time of infection for a single susceptible contact?
