@@ -232,9 +232,9 @@ Therefore, we can write the survival function $S(t) = P(T > t)$ as
 S(t) = e^{-c(t)}
 ```
 
-Now since $c(t)$ is a monotonically increasing function, this means that it is also invertible, i.e., there is a $d(t)$ s.t. $d(c(t)) = t$ and $c(d(t)) = t$.
+Now since $y=c(t)$ is a monotonically increasing function, this means that it is also invertible, i.e., there is another function $d(y)$ s.t. $d(c(t)) = t$ and $c(d(y)) = y$.
 
-Therefore, $c(T) > y \Leftrightarrow T > d(y)$ since c(t) and d(t) uniquely map to each other. 
+Therefore, $c(T) > y \Leftrightarrow T > d(y)$ since c(t) and d(y) uniquely map to each other. 
 
 Then
 
