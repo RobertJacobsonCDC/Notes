@@ -22,9 +22,9 @@ Then the number of people infected by time $`t`$ is actually $`\text{Binomial}(n
 
 Let's work this out for a single person in this setting, say person 1.
 
-Let's say $`c = \int_0^t \lambda(s)\, ds`$.
+Let's say $`c = \int_0^t \lambda(s)\, ds`$, which is the cumulative hazard for given a single contact.
 
-The number of attempts by time $`t`$ will be $`\text{Poisson}(\text{rate} = nc)`$.
+For setting with `n` contacts, the number of attempts by time $`t`$ will be $`\text{Poisson}(\text{rate} = nc)`$.
 
 So if $`k`$ is the number of attempts, then that has Poisson probability
 
