@@ -32,7 +32,7 @@ So if $`k`$ is the number of attempts, then that has Poisson probability
 \frac{(nc)^k e^{-nc}}{k!}
 ```
 
-The probability that person 1 has *NOT* been infected given there are $`k`$ attempts is $`\left(\frac{n-1}{n}\right)^k`$.
+Each attempt has probability $`\frac{1}{n}`$ of being directed at person 1 (they escape being infected with probability $1-\frac{1}{n}$). The probability that person 1 has *not* been infected given there are $`k`$ attempts is $`\left(\frac{n-1}{n}\right)^k`$.
 
 So the total probability that person 1 has not been infected is (i.e., summing over attempts to infinity)
 
