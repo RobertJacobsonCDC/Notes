@@ -1,0 +1,70 @@
+\documentclass[tikz,border=6pt]{standalone}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{amsmath}
+
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[
+    width=11cm, height=6.5cm,
+    axis lines=left,
+    axis line style={-latex},
+    xlabel={}, ylabel={},
+    xmin=0, xmax=8.6,
+    ymin=0, ymax=1.08,
+    xtick={2.0,4.2,5.1,6.2},
+    xticklabels={
+        {$\vphantom{q_1'}q_1$},
+        {$q_1'$},
+        {$\vphantom{q_1'}q_2$},
+        {$\vphantom{q_1'}q_3$}
+    },
+    ytick={0.32,0.52,0.78},
+    yticklabels={$p_1$,$p_2$,$p_3$},
+    tick align=outside,
+    clip=false,
+]
+
+% Quantile lookup guides.
+\draw[densely dashed, green!45!black]
+    (axis cs:0,0.32) -- (axis cs:2.0,0.32)
+    (axis cs:2.0,0) -- (axis cs:2.0,0.32);
+\draw[densely dashed, green!45!black]
+    (axis cs:0,0.52) -- (axis cs:5.1,0.52)
+    (axis cs:5.1,0) -- (axis cs:5.1,0.52);
+\draw[densely dashed, green!45!black]
+    (axis cs:0,0.78) -- (axis cs:6.2,0.78)
+    (axis cs:6.2,0) -- (axis cs:6.2,0.78);
+
+% A continuous rise to p_1, followed by a flat stretch.
+\addplot[thick, blue!35!black, smooth]
+    coordinates {(0,0) (0.35,0.08) (0.85,0.18) (1.4,0.27) (2.0,0.32)};
+\addplot[thick, red!75!black]
+    coordinates {(2.0,0.32) (4.2,0.32)};
+
+% The CDF rises again and then jumps at q_3.
+\addplot[thick, blue!35!black, smooth]
+    coordinates {(4.2,0.32) (4.55,0.38) (5.1,0.52) (5.65,0.63) (6.2,0.70)};
+\addplot[thick, blue!35!black, smooth]
+    coordinates {(6.2,0.88) (6.75,0.94) (7.45,0.98) (8.6,1.01)};
+
+% Right-continuity at the jump: the lower endpoint is excluded and the
+% upper endpoint is included.
+\node[circle, draw=blue!35!black, fill=white, thick, inner sep=2pt]
+    at (axis cs:6.2,0.70) {};
+\node[circle, fill=blue!35!black, inner sep=2.4pt]
+    at (axis cs:6.2,0.88) {};
+
+% Highlight the endpoints of the flat stretch and the attained p_2 lookup.
+\node[circle, fill=blue!35!black, inner sep=1.8pt]
+    at (axis cs:2.0,0.32) {};
+\node[circle, fill=blue!35!black, inner sep=1.8pt]
+    at (axis cs:4.2,0.32) {};
+\node[circle, fill=blue!35!black, inner sep=1.8pt]
+    at (axis cs:5.1,0.52) {};
+
+\node[blue!35!black, anchor=west] at (axis cs:7.25,0.88) {$F_X(x)$};
+
+\end{axis}
+\end{tikzpicture}
+\end{document}

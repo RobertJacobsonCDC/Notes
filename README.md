@@ -8,8 +8,9 @@ Notes on Mathematical Statistics and Statistical Modeling
 - [Section 1: Parameterizing and Modeling Transmission](01_ModelingTransmission.md)
 - [Probability Theory](probability_theory/index.md)
   - [Probability Spaces](probability_theory/01_probability_space.md)
-  - [Modeling Wait Time](probability_theory/02_wait_time.md)
-  - [From Wait Time to Poisson Process](probability_theory/03_poisson_process.md)
+  - [Universal Transformations and Inverse-Transform Sampling](probability_theory/02_universal_transforms.md)
+  - [Modeling Wait Time](probability_theory/03_wait_time.md)
+  - [From Wait Time to Poisson Process](probability_theory/04_poisson_process.md)
 
 The probability theory notes are organized as a VitePress book. The Markdown
 files in the repository root remain standalone notes for now.

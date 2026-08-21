@@ -36,8 +36,9 @@ export default defineConfig({
         items: [
           { text: 'Introduction', link: '/' },
           { text: 'Probability Spaces', link: '/01_probability_space' },
-          { text: 'Modeling Wait Time', link: '/02_wait_time' },
-          { text: 'Poisson Processes', link: '/03_poisson_process' },
+          { text: 'Universal Transforms', link: '/02_universal_transforms' },
+          { text: 'Modeling Wait Time', link: '/03_wait_time' },
+          { text: 'Poisson Processes', link: '/04_poisson_process' },
         ],
       },
     ],
