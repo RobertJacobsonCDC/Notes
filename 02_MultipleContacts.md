@@ -209,6 +209,52 @@ X(t) \sim \operatorname{Binomial}\left(n, 1 - \operatorname{exp}\left( - \int_0^
 
 to describe the number of infection attempts and the number of infections caused by an infectious person up to time $`t`$. 
 
+For person 1, let's look again at the probability that they become infected when the infectious person has $`n`$ contacts. The infectious person will generate a total number of infection attempts $`k`$ by time $`t`$ according to a Poisson distribution with mean $`n\Lambda(t)`$, 
+
+```math
+P(N(t) = k) = \frac{(n\Lambda(t))^ke^{-n\Lambda(t)}}{k!}
+```
+
+Each attempt targets person 1 with probability $`\frac{1}{n}`$, so person escapes a given attempt with probability $`1 - \frac{1}{n} = \frac{n-1}{n}`$. Given $`k`$ attempts, the probability of person 1 not being infected by time $`t`$ is $`\left(\frac{n-1}{n}\right)^k`$. 
+
+Summing over all possible values of $`k`$ we have,
+
+```math
+P(\text{person 1 not infected}) = \sum_{k=0}^\infty \left( \frac{n-1}{n}\right)^k \frac{ \left(n\Lambda(t) \right)^k e^{-n\Lambda(t)} }{k!}
+```
+
+Rearranging we get
+
+```math
+\begin{align*}
+P(\text{person 1 not infected}) 
+&= e^{-n\Lambda(t)} \sum_{k = 0}^\infty \left( \frac{n-1}{n}\right)^k \frac{\left( n\Lambda(t)\right)^k}{k!} \\
+&= e^{-n\Lambda(t)} \sum_{k = 0}^\infty \left( n - 1\right)^k \frac{n^k}{n^k} \frac{\left(\Lambda(t)\right)^k}{k!} \\
+&= e^{-n\Lambda(t)} \sum_{k = 0}^\infty \frac{\left( (n - 1)\Lambda(t) \right)^k}{k!}
+\end{align*}
+```
+
+Recall the Taylor series expansion of $`e^x`$:
+
+```math
+e^x = \sum_{n = 0}^\infty \frac{x^n}{n!}
+```
+
+Therefore we have
+
+
+```math
+\begin{align*}
+P(\text{person 1 not infected}) 
+&= e^{-n\Lambda(t)} e^{(n-1)\Lambda(t)} \\
+&= e^{-\Lambda(t)}
+&= 1 - p_t
+\end{align*}
+```
+
+Then the probability of person 1 being infected is $`p_t`$, just as we found before. 
+
+
 <!-- 
 Suppose infection events for a person follow a Poisson process with rate function $`\lambda(t)`$. This means that you are scheduling a Poisson process with rate function $`\lambda(t)`$. 
 
