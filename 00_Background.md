@@ -108,12 +108,19 @@ In words, the probability that an event occurs after a time $`t`$ (from the star
 
 **Proof:**
 
+```math
+\begin{aligned}
+P(X>t) &= P(X > s+t \mid X > s) \\
+\to 1-P(X>t) &= 1-P(X > s+t \mid X > s) \\
+\to P(0\lt  X \lt  t) &= P(s\lt  X \lt  t+s \mid X > s)\hspace{1.4cm}\Box
+\end{aligned}
+```
+<!-- 
 $`\hspace{0.5cm}P(X>t) = P(X > s+t \mid X > s)`$
 
 $`\to 1-P(X>t) = 1-P(X > s+t \mid X > s)`$
 
-
-$`\to P(0\lt  X \lt  t) = P(s\lt  X \lt  t+s \mid X > s)`$
+$`\to P(0\lt  X \lt  t) = P(s\lt  X \lt  t+s \mid X > s)\hspace{5cm}\Box`$ -->
 
 Conversely, suppose that $`P(0\lt X\lt t)=P(s\lt X\lt s+t\mid X>s)`$. Since $`X`$ is positive and continuously distributed, endpoint probabilities are zero. Thus,
 
@@ -126,7 +133,7 @@ P(X>t)
 \end{aligned}
 ```
 
-Therefore $`X`$ is memoryless. $`\hspace{5cm}\Box`$
+Therefore $`X`$ is memoryless. $`\hspace{1.4cm}\Box`$
 
 
 
@@ -145,19 +152,27 @@ Therefore,
 h(t) = \lim_{\Delta t \to 0} \frac{P(t < X \leq t + \Delta t \mid X > t)}{\Delta t} = \lim_{\Delta t \to 0} \frac{P(0 < X \leq \Delta t)}{\Delta t} =\lambda
 ```
 
-which is independent of $t$. Thus the hazard is a constant $`\lambda>0`$. Also, since $`S(t)=1-F(t)`$, we have $`\frac{dS}{dt} = -\frac{dF}{dt}`$. It follows that
+which is independent of $t$. Thus the hazard is a constant $`\lambda>0`$. Also, since $`S(t)=1-F(t)`$, we have $`\frac{dS}{dt} = -\frac{dF}{dt}`$.
+
+It follows that
 
 ```math
 \lambda = h(t) = \frac{\frac{dF}{dt}}{S(t)} = \frac{-\frac{dS}{dt}}{S(t)} \longleftrightarrow  -\lambda S(t) = \frac{dS}{dt} \longleftrightarrow S(t)=e^{-\lambda t}+ c.
 ```
 
-The initial condition $`S(0)=P(X\geq 0) = 1`$ gives $`c=0`$. Since $`\lambda =h(t) = \frac{f(t)}{S(t)}`$, it follows that the PDF function $`f(t) = \lambda e^{-\lambda t} \quad (t\geq 0). \hspace{5cm}\Box`$
+The initial condition $`S(0)=P(X\geq 0) = 1`$ gives $`c=0`$. Since $`\lambda =h(t) = \frac{f(t)}{S(t)}`$, it follows that the PDF function $`f(t) = \lambda e^{-\lambda t} \quad (t\geq 0). \hspace{1.4cm}\Box`$
 
 **Alternative Proof:** The memoryless condition says
 
-$`P(X>t) = P(X > s+t \mid X> s) = \frac{P(X > s+t)}{P(X > s)}`$
+```math
+\begin{aligned}
+P(X>t) &= P(X > s+t \mid X> s) = \frac{P(X > s+t)}{P(X > s)} \\
+\to P(X > s+t) &= P(X>t)\cdot P(X>s) \\
+\end{aligned}
+```
 
-$`\to P(X > s+t) = P(X>t)\cdot P(X>s)`$
+<!-- $`P(X>t) = P(X > s+t \mid X> s) = \frac{P(X > s+t)}{P(X > s)}`$
+$`\to P(X > s+t) = P(X>t)\cdot P(X>s)`$ -->
 
 To apply this repeatedly, let $`s=(a-1)t`$. Then
 
