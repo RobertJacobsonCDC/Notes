@@ -80,6 +80,18 @@ independently at a constant average rate $`\lambda`$.
 - **Poisson Distribution**: A *discrete* probability distribution giving the probability of $`k`$ events occurring by time $`t`$ , with probability mass function (PMF; for discrete distributions, analogous to the PDF for continuous distributions) of
 
 ```math
+p_{N(t)}(k) = P(N(t) = k) = \frac{\Lambda(t)^k e^{-\Lambda(t)}}{k!}, \qquad k=0,1,2,\ldots
+```
+
+$`\hspace{8mm}`$ where $`\Lambda(t)`$ is the cumulative hazard function, i.e.
+
+```math
+\Lambda(t) = \int_0^t \lambda(s)\, ds
+```
+
+$`\hspace{8mm}`$ For the homogeneous Poisson Process, $`\Lambda(t) = \lambda t`$, giving us
+
+```math
 p_{N(t)}(k) = P(N(t) = k) = \frac{(\lambda t)^k e^{-\lambda t}}{k!}, \qquad k=0,1,2,\ldots
 ```
 
