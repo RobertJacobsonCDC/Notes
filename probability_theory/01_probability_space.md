@@ -1,4 +1,4 @@
-## Probability Spaces
+# Probability Spaces
 
 Probability theory is built on the foundation of measure theory, which provides a powerful generalization of "length" / "area" that is compatible with our intuition of what "should" happen for basic set operations. Usually the underlying representation is kept purely abstract! We can always provide some specific concrete representation if we need to, but we rarely need to, because we are (usually) only interested in the abstract properties they are guaranteed to have regardless of concrete representation.
 
@@ -134,46 +134,6 @@ The CDF $`F_X`$ satisfies
 
 **Terminology:** Some authors call $`F_X`$ the distribution of $`X`$. The map $`P_X \leftrightarrow F_X`$ is a bijection, and so "the distribution of $`X`$" is well-defined regardless of which representative someone has in mind.
 
-## A Theorem About the CDF: The Probability Integral Transform
-
-For an r.v. $`X`$ with continuous distribution $`F_X`$, the r.v. defined by $`U := F_X(X)`$ can be interpreted as giving the *percentile rank* of the outcome. The map $`F_X`$ in a sense "flattens out" $`X`$. The r.v. $`U`$ is guaranteed to be uniformly distributed on $`(0,1)`$.
-
-**Theorem (The Probability Integral Transform).**
-Let $`X`$ be an r.v. with continuous cumulative distribution $`F_X`$. Then the r.v. $`U := F_X(X)`$ is uniformly distributed on $`(0,1)`$.
-
-**Proof.** Let $`u \in (0,1)`$. We seek to show that $`P(F_X(X) \le u) = u`$.
-
-Let $`x_u := \inf\{x : F_X(x) \ge u\}`$. By continuity of $`F_X`$, we have $`F_X(x_u) = u`$. Since $`F_X`$ is nondecreasing, $`a \le b \implies F_X(a) \le F_X(b)`$, and so
-```math
-\{X \le x_u\} \subset \{F_X(X) \le u\}.
-```
-Thus, $`P(X \le x_u) \le P(F_X(X) \le u)`$. However, these sets may not be equal (if $`F_X`$ is not strictly increasing). In particular, the following set may be nonempty:
-```math
-D := \{x : x_u < x \text{ and } F_X(x) = u = F_X(x_u)\} = \{F_X(X) \le u\} \setminus \{X \le x_u\}.
-```
-
-**Claim.** $`D`$ is either empty or an interval of the form $`(x_u, c]`$.
-
-*Proof of Claim.* Suppose $`a, c \in D`$ with $`a \le c`$, and suppose $`b`$ is some point with $`a \le b \le c`$. Since $`F_X`$ is nondecreasing, $`F_X(a) \le F_X(b) \le F_X(c)`$. By assumption, $`x_u < a \implies x_u < b`$. Also, $`F_X(a) = F_X(c) = u \implies F_X(b) = u`$. This shows that if $`d \in D`$, then $`(x_u, d) \subset D`$. Let $`c := \sup\{x : x \in D\}`$. By continuity of $`F_X`$, $`c \in D`$. Thus, $`D = (x_u, c]`$. $`\quad\blacksquare`$
-
-If $`D`$ is empty, $`P(D) = 0`$. Otherwise,
-```math
-P(D) = P((x_u, c]) = F_X(c) - F_X(x_u) = u - u = 0.
-```
-In either case, $`D`$ is a $`P`$-null set.
-
-We have shown that
-```math
-\begin{aligned}
-P(F_X(X) \le u) &= P\big(\{F_X(X) \le u\} \cap \{X \le x_u\} \;\cup\; \{F_X(X) \le u\} \setminus \{X \le x_u\}\big) \\
-&= P(X \le x_u) + P(D) \\
-&= u + 0 \\
-&= u. \quad\blacksquare
-\end{aligned}
-```
-
-**Interpetation:** Every continuous random variable, no matter how lumpy or skewed its distribution, is *the uniform distribution in disguise* — and $`F_X`$ is the disguise. Applying $`F_X`$ to $`X`$ strips away all the distributional shape and leaves behind featureless uniform randomness on $`(0,1)`$. So the theorem says, *the only thing that distinguishes one continuous random variable from another is the coordinate system*, i.e. the function $`F_X`$ used to read it off. Underneath, they are all the same object — a $`\text{Uniform}(0,1)`$ — viewed through different monotone lenses.
-
 ## Probability Density Function
 
 We can "construct" a CDF "from the bottom-up" using a probability density function, and then talk about random variables having such a CDF (or associated distribution $`P_X`$).
@@ -208,6 +168,21 @@ P(a < X \leq b) = \int_a^b f_X(x)\,dx \overset{\text{F.T.C.}}{=} F_X(b) - F_X(a)
 ```
 
 ![Density function with shaded interval P(a<X<b)](pdf.svg)
+
+### Which functions can be PDFs?
+
+The definition of PDF tells us what it means for a CDF $`F_X`$ to have a PDF $`f_X`$. But what are the necessary and sufficient conditions on a function $`f`$ for it to be a PDF for _some_ CDF?
+
+**Proposition:** A function $`f : \mathbb{R} \to [0,\infty)`$ is a *valid probability density* if and only if it integrates to one:
+
+```math
+\int_{-\infty}^\infty f(w)\,dw = 1.
+```
+
+**Proof:** Given $`f`$, define $`F(x) := \int_{-\infty}^x f(w)\,dw`$. The two defining conditions on $`f`$ supply exactly the two boundary properties a CDF must have: nonnegativity of $`f`$ makes $`F`$ nondecreasing, since $`F(b) - F(a) = \int_a^b f(w)\,dw \ge 0`$ whenever $`a \le b`$; and the unit-integral condition sends $`F(x) \to 1`$ as $`x \to \infty`$, while $`F(x) \to 0`$ as $`x \to -\infty`$. The remaining CDF property, right-continuity, comes free from the integral: $`F`$ built this way is in fact continuous. So $`F`$ is a genuine CDF, and by the correspondence $`F \leftrightarrow P_X`$ established earlier it determines a distribution $`P_X`$ for which $`f`$ is the density. $`\quad\blacksquare`$
+
+Nothing forces $`f`$ to be continuous, or even bounded. It need only be measurable, integrate to one, and stay nonnegative. Recall too that $`f`$ is pinned down only up to a set of measure zero: changing its values on such a set leaves every integral $`\int_a^b f(x)\, dx`$ unchanged, hence leaves $`F`$ and the distribution unchanged.
+
 
 ## (Re)Connect to Freshman Calculus
 
@@ -337,30 +312,38 @@ Observe that the survival $`S(x) := P(x < X) \xrightarrow{x\to\infty} 0`$. There
 
 **Akshually:** $`H_X`$ can be defined for any $`F_X`$, even when $`f_X`$ doesn't exist, and thus $`h_X`$ doesn't exist, but it requires a more technical and sophisticated definition. It turns out the condition on $`H_X`$ for $`h_X`$ to exist is the same one needed on $`F_X`$ for $`f_X`$ to exist. In fact:
 
-> $`H_X(x) = \int_{-\infty}^x h(w)\,dw`$ if and only if $`H_X`$ is absolutely continuous if and only if $`F_X`$ is absolutely continuous if and only if $`F_X(x) = \int_{-\infty}^x f_X(w)\,dw`$.
+> $`H_X(x) = \int_{-\infty}^x h_X(w)\,dw`$ if and only if $`H_X`$ is absolutely continuous if and only if $`F_X`$ is absolutely continuous if and only if $`F_X(x) = \int_{-\infty}^x f_X(w)\,dw`$.
 
+### Which functions can be hazard functions?
 
-## Time-Rescaling by the Cumulative Hazard
+We previously asked which measurable functions $`f \geq 0`$ are a PDF for some CDF, and the answer is, any function for which $`\int_{-\infty}^\infty f(x)\, dx = 1`$. Now we ask the analogous question for hazards: what are the necessary and sufficient conditions for a measurable $`h\geq 0`$ to be the hazard function for some random variable $`X \geq 0`$?
 
-It turns out that $`H_X`$ is the transformation that turns any lifetime into a standard one: if you rescale time by the cumulative hazard, the (rescaled) event happens at a rate 1 exponential.
-
-**Theorem:** Let $`F_X`$ be a continuous CDF for an r.v. $`X`$. Then the r.v. $`Y := H_X(X)`$ is exponentially distributed with rate $`1`$.
-
-**Proof:** Since $`X`$ is continuous,
-- $`F_X`$ is continuous nondecreasing
-- $`S_X = 1 - F_X`$ is continuous nonincreasing
-- $`H_X = -\log S_X`$ is continuous and nondecreasing, mapping the support of $`X`$ onto $`[0,\infty)`$.
-
-The survival function of $`Y`$ is
+**Proposition:** A function $`h\geq 0`$ is a _valid hazard function_ for some nonnegative random variable if and only if
 ```math
-S_Y(y) = P(Y > y) = P(H_X(X) > y) = P(-\log S_X(X) > y) = P(S_X(X) < e^{-y}).
+\int_0^\infty h(x)\, dx = \infty.
 ```
 
-By the previous Probability Integral Transform theorem, $`F_X(X)`$ is uniform on $`(0,1)`$, and so $`S_X(X) = 1 - F_X(X)`$ is also uniform on $`(0,1)`$. So for $`e^{-y} \in (0,1]`$,
+**Proof:** We use the relationships from the previous section to define $`H(x) = \int_0^x h(w)\,dw`$, $`S(x) = e^{-H(x)}`$, and $`F(x) = 1 - S(x) = 1 - e^{-H(x)}`$. Now we just need to show that $`F`$ is a CDF, that is, that:
+
+1. $`F`$ is nonnegative and nondecreasing,
+2. $`F(0) = 0`$, and
+3. $`\lim_{x\to \infty}F(x) = 1`$.
+
+Since $`h\geq 0`$, $H(x)$ is nonnegative nondecreasing, and so we have $`F(x) = 1 - e^{-H(x)}`$ is nonnegative nondecreasing, establishing (1). Clearly $`F(0) = 1 - S(0) = 1 - e^{-0} = 1-1=0`$, establishing (2). Finally, $`\lim_{x\to \infty}F(x) = 1`$ if and only if $`\lim_{x\to \infty}H(x) = \infty`$, which is exactly the condition that $`\int_0^\infty h(x)\, dx = \infty`$. $`\quad\blacksquare`$
+
+**Alternative Proof:** Observe that $`f(x) := F'(x)`$ is nonnegative and then compute as follows:
+
 ```math
-P(S_X(X) < e^{-y}) = e^{-y}.
+\begin{align*}
+\int_{0}^\infty f(w)\,dw &= \lim_{x\to \infty} \int_{0}^x f(w)\,dw \\
+&= \lim_{x\to \infty} \int_{0}^x \frac{d}{dw}\left[1-e^{-H(w)} \right]\,dw \\
+&=\lim_{x\to \infty} \left[1-e^{-H(w)} \right]_0^x \\
+&=\lim_{x\to \infty} \left(1-e^{-H(x)}\right) -  \left(1-e^{-H(0)}\right) \\
+&=\left(1-0\right) - (1 - 1)\\
+&= 1
+\end{align*}
 ```
+Then the proposition follows from the analogous proposition about when $`f`$ is a PDF. $`\quad\blacksquare`$
 
-This shows that $`S_Y(y) = e^{-y}`$, that is, that $`F_Y(y) = 1 - e^{-y}`$. $`\quad\blacksquare`$
+As we observed in the case of PDF functions, nothing forces $h$ to be continuous, or even bounded. It need only be measurable, nonnegative, and divergent in total accumulation. Recall too that $h$ enters the distribution only through its integral $H(x) = \int_0^x h(w)\,dw$, so it is pinned down only up to a set of measure zero: changing its values on such a set leaves every $H(x)$ unchanged, hence leaves $S$, $F$, and the distribution unchanged.
 
-**Interpretation:** Where the Probability Integral Transform says every continuous $`X`$ is a uniform in disguise (viewed through the lens $`F_X`$, on the *probability* scale), this theorem says the very same $`X`$ is *also* a unit exponential in disguise (viewed through the lens $`H_X`$, on the *risk-time* scale). These are not two different facts — they are one fact told twice, since $`H_X = -\log(1 - F_X)`$ is nothing but a fixed, deterministic reshaping of $`F_X`$ itself: transforming the uniform $`U = F_X(X)`$ by $`u \mapsto -\log(1-u)`$ produces the unit exponential $`Y = H_X(X)`$. So the "universal disguise" underneath every continuous random variable can be worn on either scale: as a *rank* (the percentile, uniform on $`(0,1)`$) or as an *accumulated hazard* (the risk-clock, exponential with rate $`1`$) — and $`F_X`$, $`H_X`$ are the two dictionaries translating between $`X`$'s own units and that universal currency.
