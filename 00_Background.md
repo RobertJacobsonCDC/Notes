@@ -46,6 +46,22 @@ h_X(t):=\lim_{\Delta t\to0}\frac{P(t\leq X \leq t+\Delta t \mid X\geq t)}{\Delta
 
 **Proof:**
 
+```math
+\begin{aligned}
+h_X(t) :&=\lim_{\Delta t\to0}\frac{P(t\leq X \leq t+\Delta t \mid X\geq t)}{\Delta t} \\
+
+&=\lim_{\Delta t\to0}\frac{P(t\leq X \leq t+\Delta t)}{P(X\geq t) \Delta t} \\
+
+&=\frac{\lim_{\Delta t\to0}\frac{P(t\leq X \leq t+\Delta t)}{\Delta t}}{P(X\geq t)} \\
+
+&=\frac{\frac{dF_X}{dt}(t)}{S_X(t)} \\
+
+&=\frac{f_X(t)}{S_X(t)}
+
+\end{aligned}
+```
+
+<!-- 
 $`h_X(t):=\lim_{\Delta t\to0}\frac{P(t\leq X \leq t+\Delta t \mid X\geq t)}{\Delta t}`$
 
 $`\hspace{2cm}=\lim_{\Delta t\to0}\frac{P(t\leq X \leq t+\Delta t)}{P(X\geq t) \Delta t}`$
@@ -54,7 +70,7 @@ $`\hspace{2cm}=\frac{\lim_{\Delta t\to0}\frac{P(t\leq X \leq t+\Delta t)}{\Delta
 
 $`\hspace{2cm}=\frac{\frac{dF_X}{dt}(t)}{S_X(t)}`$
 
-$`\hspace{2cm}=\frac{f_X(t)}{S_X(t)}\hspace{5cm}\Box`$
+$`\hspace{2cm}=\frac{f_X(t)}{S_X(t)}\hspace{5cm}\Box`$ -->
 
 
 With $`S_X(x) = P(X > x) = 1 -  P(X \leq x) = 1 - F_X(x)`$, then we also have 
@@ -112,9 +128,11 @@ In words, the probability that an event occurs after a time $`t`$ (from the star
 \begin{aligned}
 P(X>t) &= P(X > s+t \mid X > s) \\
 \to 1-P(X>t) &= 1-P(X > s+t \mid X > s) \\
-\to P(0\lt  X \lt  t) &= P(s\lt  X \lt  t+s \mid X > s)\hspace{1.4cm}\Box
+\to P(0\lt  X \lt  t) &= P(s\lt  X \lt  t+s \mid X > s) \\
 \end{aligned}
 ```
+<p align="right"><font size="5">&#9633;</font></p>
+
 <!-- 
 $`\hspace{0.5cm}P(X>t) = P(X > s+t \mid X > s)`$
 
@@ -133,7 +151,8 @@ P(X>t)
 \end{aligned}
 ```
 
-Therefore $`X`$ is memoryless. $`\hspace{1.4cm}\Box`$
+Therefore $`X`$ is memoryless. <p align="right"><font size="5">&#9633;</font></p>
+
 
 
 
@@ -209,15 +228,26 @@ Taking $`t=1`$, we have $`P(X>r)=P(X>1)^r`$. Therefore $`P(X>t)=e^{-\lambda t}`$
 
  #### A Poisson process is **inhomogeneous** if the rate $`\lambda`$ is not constant over time.
 
-Let $`\lambda=\lambda(t)`$ be a non-negative integrable rate function, and let $`T`$ be a waiting-time random variable with hazard $`\lambda(t)`$. For finite $`t`$, its density is $`f_T(t)=\lambda(t)e^{-\int_0^t\lambda(s)ds}`$, and $`F_T(t)=P(T\leq t)=1-e^{-\int_0^t\lambda(s)ds}`$. This distribution is often called the waiting-time or first-arrival-time distribution.  Let $`\Lambda(t)`$ be the cumulative rate function defined by
+Let $`\lambda=\lambda(t)`$ be a non-negative integrable rate function, and let $`T`$ be a waiting-time random variable with hazard $`\lambda(t)`$. For finite $`t`$, its density is $`f_T(t)=\lambda(t)\operatorname{exp}\left(-\int_0^t\lambda(s)ds\right)`$, and $`F_T(t)=P(T\leq t)=1-\operatorname{exp}\left(-\int_0^t\lambda(s)ds\right)`$. This distribution is often called the waiting-time or first-arrival-time distribution.  Let $`\Lambda(t)`$ be the cumulative rate function defined by
 
-$`\displaystyle\hspace{2cm}  \Lambda(t) := \int_0^t \lambda(s)  ds`$
+```math
+\Lambda(t) := \int_0^t \lambda(s)\, ds
+```
+
+<!-- $`\displaystyle\hspace{2cm}  \Lambda(t) := \int_0^t \lambda(s)  ds`$ -->
 
 Then we can write
 
-$`\displaystyle\hspace{2cm} f_T(t) = \lambda(t) e^{-\Lambda(t)}`$, and
+```math
+\begin{aligned}
+f_T(t) &= \lambda(t) e^{-\Lambda(t)} \\
+F_T(t) &= 1 - e^{-\Lambda(t)}
+\end{aligned}
+```
 
-$`\displaystyle\hspace{2cm} F_T(t) = 1 - e^{-\Lambda(t)}`$.
+<!-- $`\displaystyle\hspace{2cm} f_T(t) = \lambda(t) e^{-\Lambda(t)}`$, and
+
+$`\displaystyle\hspace{2cm} F_T(t) = 1 - e^{-\Lambda(t)}`$. -->
 
 
 If $`\lambda(t)>0`$, then $`\Lambda`$ is strictly increasing and has an ordinary inverse on its range. Note, that when $`\lambda`$ is constant and positive, $`\Lambda(t) = \lambda t`$ and the waiting-time distribution simplifies to the usual exponential distribution.
@@ -250,7 +280,9 @@ Now we use the Chain Rule to differentiate:
 
 $`f_Y(y) := \frac{d}{dy}\left[ F_Y(y) \right] = \frac{d}{dy}\left[ F_X(\Lambda(y)) \right] = f_X(\Lambda(y)) \cdot \frac{d}{dy}\left[ \Lambda(y) \right]`$.
 
-By the Fundamental Theorem of Calculus, $`\frac{d}{dy}\left[ \Lambda(y) \right] = \lambda(y)`$. Thus, $`f_Y(y) = \lambda(y)e^{-\Lambda(y)}`$, the PDF of a waiting time with hazard $`\lambda(y)`$. This shows that $`Y=d(X)`$ has hazard $`\lambda`$. $`\hspace{3cm}\Box`$
+By the Fundamental Theorem of Calculus, $`\frac{d}{dy}\left[ \Lambda(y) \right] = \lambda(y)`$. Thus, $`f_Y(y) = \lambda(y)e^{-\Lambda(y)}`$, the PDF of a waiting time with hazard $`\lambda(y)`$. This shows that $`Y=d(X)`$ has hazard $`\lambda`$.$
+<p align="right"><font size="5">&#9633;</font></p>
+
 
 The equality marked with a '$`\star`$' needs justification, because it's not true in general. If $`a \lt  b`$, what conditions on a function $`f`$ guarantee that $`f(a) \leq f(b)`$? If ($`\star`$) is to hold, $`\Lambda(t)`$ must satisfy those conditions.
 
