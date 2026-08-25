@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
+  base: '/Notes/',
   title: 'Math and Models',
   description: 'Notes on mathematical statistics and statistical modeling',
   cleanUrls: true,
