@@ -128,7 +128,7 @@ This says that as a function of $`r`$, $`P(X>r)`$ is an exponential function of 
 
 
 **Another Alternate Proof**
-Outline: The intuition behind this proof is based on dividing $`[0,t]`$ into many small intervals of length $`a=t/n`$ for some large integer $n$ and noting that the event does not happen in $`[0,t]`$ iff it does not happen in any subinterval.  We can estimating the probability that an event does not happen in each interval and use this to estimate the probability that the event does not happen in $[0,t]$.  We then take $`a \to 0`$ (or equivalently $`n \to \infty`$) to find $`P(X>t)`$.
+Outline: The intuition behind this proof is based on dividing $`[0,t]`$ into many small intervals of length $`a=t/n`$ for some large integer $n$ and noting that the event does not happen in $`[0,t]`$ iff it does not happen in any subinterval.  We can estimate the probability that an event does not happen in each interval and use this to estimate the probability that the event does not happen in $[0,t]$.  We then take the limit of $`a \to 0`$ (or equivalently $`n \to \infty`$) to find $`P(X>t)`$.
 
 
 Steps:
