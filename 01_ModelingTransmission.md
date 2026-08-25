@@ -4,7 +4,8 @@
 
 Assume a person has intrinsic infectiousness of 1 person per day for time $`[0, 2]`$.
 
-By this, I mean that the conditional hazard is 1 transmission attempt per day:
+By this, we mean that the conditional hazard is 1 transmission attempt per day:
+
 ```math
 \displaystyle \lim_{\varepsilon \to 0} \frac{P(\text{transmit in } [t, t + \varepsilon] \mid \text{have not transmitted by time } t)}{\varepsilon}=1.
 ```
@@ -32,7 +33,7 @@ Sample from a $`\text{Poisson}(2) \to n`$. Then sample $`n`$ times uniformly in 
 
 **Option 2:** Iteratively sample inter event times $`\Delta t_i \sim \text{Exp}(1)`$. Then the times are $`\Delta t_1, \Delta t_1 + \Delta t_2, \Delta t_1 + \Delta t_2 + \Delta t_3,\dots`$ up to when they exceed 2 (past which, our rate function says that no infection attempts are expected with a rate of 0).
 
-**Option 3**: Time scaling. We can sample the inter event times using the cumulative rate function $c(t)$. For rate function $r(t)$ (equivalent to the hazard function in this case)
+**Option 3**: Time scaling. We can sample the inter event times using the cumulative rate function $\Lambda(t)$. For rate function $r(t)$ (equivalent to the hazard function in this case)
 
 ```math
 r(t) = \begin{cases}
@@ -41,16 +42,16 @@ r(t) = \begin{cases}
 \end{cases}
 ```
 
-the cumulative rate function $c(t)$ is
+the cumulative rate function $\Lambda(t)$ is
 
 ```math
-c(t) = \begin{cases}
+\Lambda(t) = \begin{cases}
 t, & t \in [0, 2] \\
 2, & else
 \end{cases}
 ```
 
-A true inverse function of $c(t)$ does not exist on $[0,\infty)$ because $c(t)=2$ for every $t\geq2$. However, restricted to cumulative values $y\in[0,2]$, we can use $d(y)=y$. On this relevant range, $c(d(y))=y$; and for time values $t\in[0,2]$, $d(c(t))=t$.
+A true inverse function of $\Lambda(t)$ does not exist on $[0,\infty)$ because $c(t)=2$ for every $t\geq2$. However, restricted to cumulative values $y\in[0,2]$, we can use $d(y)=y$. On this relevant range, $\Lambda(d(y))=y$; and for time values $t\in[0,2]$, $d(c(t))=t$.
 
 Recall that inter event distances in the cumulative space can be sampled as $\Delta y_i \sim \text{Exp(1)}$. Iteratively sample $\Delta y_i$. Then the points in cumulative space are $\Delta y_1, \Delta y_1 + \Delta y_2, \Delta y_1 + \Delta y_2 + \Delta y_3, ...$, up to when they exceed 2 (the maximum value of $c(t)$, past which there is no valid inverse function). We'll call these $y_i$.
 

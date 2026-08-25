@@ -60,6 +60,7 @@ h_X(t) :&=\lim_{\Delta t\to0}\frac{P(t\leq X \leq t+\Delta t \mid X\geq t)}{\Del
 
 \end{aligned}
 ```
+<p align="right"><font size="5">&#9633;</font></p>
 
 <!-- 
 $`h_X(t):=\lim_{\Delta t\to0}\frac{P(t\leq X \leq t+\Delta t \mid X\geq t)}{\Delta t}`$
@@ -179,13 +180,15 @@ It follows that
 \lambda = h(t) = \frac{\frac{dF}{dt}}{S(t)} = \frac{-\frac{dS}{dt}}{S(t)} \longleftrightarrow  -\lambda S(t) = \frac{dS}{dt} \longleftrightarrow S(t)=e^{-\lambda t}+ c.
 ```
 
-The initial condition $`S(0)=P(X\geq 0) = 1`$ gives $`c=0`$. Since $`\lambda =h(t) = \frac{f(t)}{S(t)}`$, it follows that the PDF function $`f(t) = \lambda e^{-\lambda t} \quad (t\geq 0). \hspace{1.4cm}\Box`$
+The initial condition $`S(0)=P(X\geq 0) = 1`$ gives $`c=0`$. Since $`\lambda =h(t) = \frac{f(t)}{S(t)}`$, it follows that the PDF function $`f(t) = \lambda e^{-\lambda t} \quad (t\geq 0).`$
+<p align="right"><font size="5">&#9633;</font></p>
 
 **Alternative Proof:** The memoryless condition says
 
 ```math
 \begin{aligned}
-P(X>t) &= P(X > s+t \mid X> s) = \frac{P(X > s+t)}{P(X > s)} \\
+P(X>t) &= P(X > s+t \mid X> s) \\
+&= \frac{P(X > s+t)}{P(X > s)} \\
 \to P(X > s+t) &= P(X>t)\cdot P(X>s) \\
 \end{aligned}
 ```
@@ -221,14 +224,15 @@ P(X>qt)=P\left(X>a\frac{t}{b}\right)=P\left(X>\frac{t}{b}\right)^a=P(X>t)^q.
 
 Finally, the survival function $`S(t)=P(X>t)`$ is continuous because $`X`$ has a continuous distribution. Since rational numbers can approximate every real number, this equality extends to $`P(X>rt)=P(X>t)^r`$ for all $`r\geq0`$.
 
-Taking $`t=1`$, we have $`P(X>r)=P(X>1)^r`$. Therefore $`P(X>t)=e^{-\lambda t}`$, where $`\lambda=-\ln(P(X>1))=-\ln(S(1))`$. Thus, we have shown that $`S(t)=e^{-\lambda t}`$ for some $`\lambda>0`$. The CDF is thus $`F(t)=1-S(t)=1-e^{-\lambda t}`$. The PDF is $`f(t)=\frac{dF}{dt}(t)=\lambda e^{-\lambda t}.\hspace{5cm}\Box`$
+Taking $`t=1`$, we have $`P(X>r)=P(X>1)^r`$. Therefore $`P(X>t)=e^{-\lambda t}`$, where $`\lambda=-\ln(P(X>1))=-\ln(S(1))`$. Thus, we have shown that $`S(t)=e^{-\lambda t}`$ for some $`\lambda>0`$. The CDF is thus $`F(t)=1-S(t)=1-e^{-\lambda t}`$. The PDF is $`f(t)=\frac{dF}{dt}(t)=\lambda e^{-\lambda t}.`$
+<p align="right"><font size="5">&#9633;</font></p>
 
 
 # 0.2: Time Scaling
 
  #### A Poisson process is **inhomogeneous** if the rate $`\lambda`$ is not constant over time.
 
-Let $`\lambda=\lambda(t)`$ be a non-negative integrable rate function, and let $`T`$ be a waiting-time random variable with hazard $`\lambda(t)`$. For finite $`t`$, its density is $`f_T(t)=\lambda(t)\operatorname{exp}\left(-\int_0^t\lambda(s)ds\right)`$, and $`F_T(t)=P(T\leq t)=1-\operatorname{exp}\left(-\int_0^t\lambda(s)ds\right)`$. This distribution is often called the waiting-time or first-arrival-time distribution.  Let $`\Lambda(t)`$ be the cumulative rate function defined by
+Let $`\lambda=\lambda(t)`$ be a non-negative integrable rate function, and let $`T`$ be a waiting-time random variable with hazard $`\lambda(t)`$. For finite $`t`$, its density is $`f_T(t)=\lambda(t)\text{exp}\left(-\int_0^t\lambda(s)ds\right)`$, and $`F_T(t)=P(T\leq t)=1-\text{exp}\left(-\int_0^t\lambda(s)ds\right)`$. This distribution is often called the waiting-time or first-arrival-time distribution.  Let $`\Lambda(t)`$ be the cumulative rate function defined by
 
 ```math
 \Lambda(t) := \int_0^t \lambda(s)\, ds
@@ -252,11 +256,9 @@ $`\displaystyle\hspace{2cm} F_T(t) = 1 - e^{-\Lambda(t)}`$. -->
 
 If $`\lambda(t)>0`$, then $`\Lambda`$ is strictly increasing and has an ordinary inverse on its range. Note, that when $`\lambda`$ is constant and positive, $`\Lambda(t) = \lambda t`$ and the waiting-time distribution simplifies to the usual exponential distribution.
 
-If $`\lambda`$ is zero on an interval, $`\Lambda`$ is flat there; in that case use its generalized inverse $`\Lambda^{-1}(y):=\inf\{t\geq0:\Lambda(t)\geq y\}`$.
+If $`\lambda`$ is zero on an interval, $`\Lambda`$ is flat there; in that case use its generalized inverse $`\Lambda^{-1}(y):=\inf\{t\geq0:\Lambda(t)\geq y\}`$. This means that the generalized inverse gives the first time at which $`\Lambda`$ reaches or exceeds a given value and so it still works even when $`\Lambda`$ has flat parts.
 
-If $`\Lambda(\infty)<\infty`$, then there is a nonzero probability $`e^{-\Lambda(\infty)}`$ that no event ever occurs; equivalently, take $`T=\infty`$ on that event. This is the case for a finite infectious period.
-
-
+If $`\Lambda(\infty) < \infty`$, then there is a nonzero probability $`e^{-\Lambda(\infty)}`$ that no event ever occurs. That is, if the total accumulated rate remains bounded even as $`t\to\infty`$, then the survival function $`S_T = e^{-\Lambda(\infty)}`$ never reaches zero so there's some nonzero probability that the event never happens at all. To handle this, we can define $`T = \infty`$ on that outcome. An example of this is when an infected individual has a finite infectious period: once they recover, the rate function $`\lambda(t)`$ drops to zero for all future time, so $`\Lambda`$ stops growing and its limit is finite. 
 
 **Theorem:** Let $`\lambda=\lambda(t)>0`$ be a rate function with $`\Lambda(\infty)=\infty`$, and let $`d=\Lambda^{-1}`$. If $`X\sim\text{Exp}(1)`$, then $`d(X)`$ has hazard function $`\lambda(t)`$.
 
@@ -280,7 +282,7 @@ Now we use the Chain Rule to differentiate:
 
 $`f_Y(y) := \frac{d}{dy}\left[ F_Y(y) \right] = \frac{d}{dy}\left[ F_X(\Lambda(y)) \right] = f_X(\Lambda(y)) \cdot \frac{d}{dy}\left[ \Lambda(y) \right]`$.
 
-By the Fundamental Theorem of Calculus, $`\frac{d}{dy}\left[ \Lambda(y) \right] = \lambda(y)`$. Thus, $`f_Y(y) = \lambda(y)e^{-\Lambda(y)}`$, the PDF of a waiting time with hazard $`\lambda(y)`$. This shows that $`Y=d(X)`$ has hazard $`\lambda`$.$
+By the Fundamental Theorem of Calculus, $`\frac{d}{dy}\left[ \Lambda(y) \right] = \lambda(y)`$. Thus, $`f_Y(y) = \lambda(y)e^{-\Lambda(y)}`$, the PDF of a waiting time with hazard $`\lambda(y)`$. This shows that $`Y=d(X)`$ has hazard $`\lambda`$.
 <p align="right"><font size="5">&#9633;</font></p>
 
 
@@ -296,9 +298,9 @@ Let $`\lambda = \lambda(t)`$ be some non-negative real-valued rate function of a
 Let $c(t)$ be the cumulative rate function, s.t.
 
 ```math
-c(t) = \int_0^t \lambda(s)ds
+\Lambda(t) = \int_0^t \lambda(s)ds
 ```
-With $`\lambda(t)`$ a non-negative real-valued function, the cumulative rate function is monotonically non-decreasing. It has an ordinary inverse only when it is strictly increasing; otherwise, use the generalized inverse defined above.
+With $`\lambda(t)`$ a non-negative real-valued function, the cumulative rate function is monotonically non-decreasing. It has an ordinary inverse only when it is strictly increasing; otherwise, we use the generalized inverse defined above.
 
 $`\lambda(t)`$ as the hazard function also satisfies the relationship,
 
@@ -309,30 +311,30 @@ $`\lambda(t)`$ as the hazard function also satisfies the relationship,
 Then
 
 ```math
-ln(S(t)) = -\int_0^t \lambda(s)ds = -c(t)
+ln(S(t)) = -\int_0^t \lambda(s)ds = -\Lambda(t)
 ```
 
 Therefore, we can write the survival function $`S(t) = P(T > t)`$ as
 
 ```math
-S(t) = e^{-c(t)}
+S(t) = e^{-\Lambda(t)}
 ```
 
-For the following ordinary-inverse argument, assume $`c`$ is strictly increasing. Then it has an inverse $`d`$ such that $`d(c(t))=t`$ and $`c(d(t))=t`$. If $`c`$ has flat portions, the generalized inverse gives the corresponding sampling construction.
+For the following ordinary-inverse argument, assume $`\Lambda`$ is strictly increasing. Then it has an inverse $`d`$ such that $`d(\Lambda(t))=t`$ and $`\Lambda(d(t))=t`$. If $`\Lambda`$ has flat portions, the generalized inverse gives the corresponding sampling construction.
 
-Therefore, $`c(T) > y \Leftrightarrow T > d(y)`$ since $c(t)$ and $d(t)$ uniquely map to each other.
+Therefore, $`\Lambda(T) > y \Leftrightarrow T > d(y)`$ since $\Lambda(t)$ and $d(t)$ uniquely map to each other.
 
 Then
 
 ```math
-P(c(T) > y) = P(T > d(y)) = S(d(y)) = e^{-c(d(y))} = e^{-y} = S^{*}(y)
+P(\Lambda(T) > y) = P(T > d(y)) = S(d(y)) = e^{-\Lambda(d(y))} = e^{-y} = S^{*}(y)
 ```
 
 where $`S^{\text{*}}(y)`$ is the survival function of events in the cumulative space.
 
-This means that $`c(T) = y \sim \text{Exp}(1)`$, i.e. inter event distances in the cumulative space can be sampled with an exponential distribution of rate equal to $1$.
+This means that $`\Lambda(T) = y \sim \text{Exp}(1)`$, i.e. inter-event distances in the cumulative space can be sampled with an exponential distribution of rate equal to $`1`$.
 
-**And another proof:**
+**Yet another proof:**
 
 A waiting time $`T`$ with hazard $`\lambda(t)`$ has survival function
 
@@ -356,7 +358,7 @@ Applying $`\Lambda^{-1}`$ to both sides means $`T = \Lambda^{-1}(X), X \sim \tex
 
 Now, what does this mean for us in terms of being able to sample the time to the next infection when the rate process is inhomogeneous?
 
-Since we can sample the interevent distances in the cumulative space with $\sim \text{Exp}(1)$, then we can get the cumulative values $y_i$ by summing the sampled inter event values $\Delta y_i$, and invert each $y_i$ with $d(y)$ to get the time for each event $t_i$.
+Since we can sample the inter-event distances in the cumulative space with $\sim \text{Exp}(1)$, then we can get the cumulative values $y_i$ by summing the sampled inter event values $\Delta y_i$, and invert each $y_i$ with $d(y)$ to get the time for each event $t_i$.
 
 Algorithmically, this means:
 
