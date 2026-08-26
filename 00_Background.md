@@ -62,17 +62,6 @@ h_X(t) :&=\lim_{\Delta t\to0}\frac{P(t\leq X \leq t+\Delta t \mid X\geq t)}{\Del
 ```
 <p align="right"><font size="5">&#9633;</font></p>
 
-<!-- 
-$`h_X(t):=\lim_{\Delta t\to0}\frac{P(t\leq X \leq t+\Delta t \mid X\geq t)}{\Delta t}`$
-
-$`\hspace{2cm}=\lim_{\Delta t\to0}\frac{P(t\leq X \leq t+\Delta t)}{P(X\geq t) \Delta t}`$
-
-$`\hspace{2cm}=\frac{\lim_{\Delta t\to0}\frac{P(t\leq X \leq t+\Delta t)}{\Delta t}}{P(X\geq t)}`$
-
-$`\hspace{2cm}=\frac{\frac{dF_X}{dt}(t)}{S_X(t)}`$
-
-$`\hspace{2cm}=\frac{f_X(t)}{S_X(t)}\hspace{5cm}\Box`$ -->
-
 
 With $`S_X(x) = P(X > x) = 1 -  P(X \leq x) = 1 - F_X(x)`$, then we also have 
 ```math
@@ -134,12 +123,6 @@ P(X>t) &= P(X > s+t \mid X > s) \\
 ```
 <p align="right"><font size="5">&#9633;</font></p>
 
-<!-- 
-$`\hspace{0.5cm}P(X>t) = P(X > s+t \mid X > s)`$
-
-$`\to 1-P(X>t) = 1-P(X > s+t \mid X > s)`$
-
-$`\to P(0\lt  X \lt  t) = P(s\lt  X \lt  t+s \mid X > s)\hspace{5cm}\Box`$ -->
 
 Conversely, suppose that $`P(0\lt X\lt t)=P(s\lt X\lt s+t\mid X>s)`$. Since $`X`$ is positive and continuously distributed, endpoint probabilities are zero. Thus,
 
@@ -193,8 +176,6 @@ P(X>t) &= P(X > s+t \mid X> s) \\
 \end{aligned}
 ```
 
-<!-- $`P(X>t) = P(X > s+t \mid X> s) = \frac{P(X > s+t)}{P(X > s)}`$
-$`\to P(X > s+t) = P(X>t)\cdot P(X>s)`$ -->
 
 To apply this repeatedly, let $`s=(a-1)t`$. Then
 
@@ -238,8 +219,6 @@ Let $`\lambda=\lambda(t)`$ be a non-negative integrable rate function, and let $
 \Lambda(t) := \int_0^t \lambda(s)\, ds
 ```
 
-<!-- $`\displaystyle\hspace{2cm}  \Lambda(t) := \int_0^t \lambda(s)  ds`$ -->
-
 Then we can write
 
 ```math
@@ -248,10 +227,6 @@ f_T(t) &= \lambda(t) e^{-\Lambda(t)} \\
 F_T(t) &= 1 - e^{-\Lambda(t)}
 \end{aligned}
 ```
-
-<!-- $`\displaystyle\hspace{2cm} f_T(t) = \lambda(t) e^{-\Lambda(t)}`$, and
-
-$`\displaystyle\hspace{2cm} F_T(t) = 1 - e^{-\Lambda(t)}`$. -->
 
 
 If $`\lambda(t)>0`$, then $`\Lambda`$ is strictly increasing and has an ordinary inverse on its range. Note, that when $`\lambda`$ is constant and positive, $`\Lambda(t) = \lambda t`$ and the waiting-time distribution simplifies to the usual exponential distribution.
