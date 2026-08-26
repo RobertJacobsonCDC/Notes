@@ -242,13 +242,13 @@ X/4, & 0 \leq X \leq 4,\\
 \end{cases}
 ```
 
-```math
+<!-- ```math
 t = d(X) = 
 \begin{cases}
 X/4, & 0 \leq t \leq 4 \\
 (X+4)/8, & 4 \lt X \leq 12
 \end{cases}
-```
+``` -->
 
 4. Propose an attempt at time $`t`$ with forecast rate $`R(t)`$.
 
