@@ -1,6 +1,8 @@
 # Math and Models
 
-Notes on Mathematical Statistics and Statistical Modeling
+Notes on mathematical statistics and statistical modeling.
+
+The probability theory VitePress material is rendered at https://robertjacobsoncdc.github.io/Notes/.
 
 ## Contents
 
