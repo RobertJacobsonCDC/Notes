@@ -238,7 +238,7 @@ The intrinsic infectiousness is at most 2, so the total infectiousness is at mos
 t=d(X)=
 \begin{cases}
 X/4, & 0\leq X\leq4,\\
-(X+4)/8, & 4<X\leq12. \\
+(X+4)/8, & 4<X\leq12 \\
 \end{cases}
 ```
 
