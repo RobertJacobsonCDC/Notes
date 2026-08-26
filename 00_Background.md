@@ -258,11 +258,11 @@ If $`\lambda(t)>0`$, then $`\Lambda`$ is strictly increasing and has an ordinary
 
 If $`\lambda`$ is zero on an interval, $`\Lambda`$ is flat there; in that case use its generalized inverse $`\Lambda^{-1}(y):=\inf\{t\geq0:\Lambda(t)\geq y\}`$. This means that the generalized inverse gives the first time at which $`\Lambda`$ reaches or exceeds a given value and so it still works even when $`\Lambda`$ has flat parts.
 
-If $`\Lambda(\infty) < \infty`$, then there is a nonzero probability $`e^{-\Lambda(\infty)}`$ that no event ever occurs. That is, if the total accumulated rate remains bounded even as $`t\to\infty`$, then the survival function $`S_T = e^{-\Lambda(\infty)}`$ never reaches zero so there's some nonzero probability that the event never happens at all. To handle this, we can define $`T = \infty`$ on that outcome. An example of this is when an infected individual has a finite infectious period: once they recover, the rate function $`\lambda(t)`$ drops to zero for all future time, so $`\Lambda`$ stops growing and its limit is finite. 
+If $`\Lambda(\infty) < \infty`$, then there is a nonzero probability $`e^{-\Lambda(\infty)}`$ that no event ever occurs. That is, if the total accumulated rate remains bounded even as $`t\to\infty`$, then the survival function $`S_T = e^{-\Lambda(\infty)}`$ never reaches zero so there's some nonzero probability that the event never happens at all. To handle this, we can define $`T = \infty`$ on that outcome. An example of this is when an infected individual has a finite infectious period: once they recover, the rate function $`\lambda(t)`$ drops to zero for all future time, so $`\Lambda`$ stops growing and its limit is finite. In all cases, we can interpret this as the infectious agent running out of opportunities to transmit infection and the infection loop ends for them.
 
 **Theorem:** Let $`\lambda=\lambda(t)>0`$ be a rate function with $`\Lambda(\infty)=\infty`$, and let $`d=\Lambda^{-1}`$. If $`X\sim\text{Exp}(1)`$, then $`d(X)`$ has hazard function $`\lambda(t)`$.
 
-Equivalently, if $`T`$ has hazard $`\lambda(t)`$, then $`\Lambda(T)\sim\text{Exp}(1)`$. The map $`\Lambda`$ sends a time to cumulative-rate space, and its inverse $`d`$ sends a cumulative-rate value back to its corresponding time. Thus, to sample $`T`$, sample $`X\sim\text{Exp}(1)`$ in cumulative-rate space and set $`T=d(X)`$.
+Equivalently, if $`T`$ has hazard $`\lambda(t)`$, then $`\Lambda(T)\sim\text{Exp}(1)`$. The map $`\Lambda`$ sends a time $`T`$ to cumulative-rate space, and its inverse $`d`$ sends a cumulative-rate value back to its corresponding time. Thus, to sample $`T`$, sample $`X\sim\text{Exp}(1)`$ in cumulative-rate space and set $`T=d(X)`$.
 
 **Example:** Suppose $`\lambda(t)=0.7`$. Then $`\Lambda(t)=\int_0^t0.7\,ds=0.7t`$, so its inverse is $`d(y)=\frac{y}{0.7}`$. The theorem says to start with $`X\sim\text{Exp}(1)`$ in cumulative-rate space and map it back to time by applying $`d`$. Thus
 
@@ -272,7 +272,7 @@ T=d(X)=\frac{X}{0.7}.
 
 The resulting waiting time has constant hazard $`0.7`$, so $`T\sim\text{Exp}(0.7)`$.
 
-This says that for a Poisson process, if the rate ($`\lambda=0.7`$) is smaller (than $`1`$ in this case), the wait time until the next event ($`\frac{1}{0.7}X`$) is larger.
+This says that for a Poisson process, if the rate ($`\lambda=0.7`$) is smaller (than $`1`$ in this case), the wait time until the next event ($`\frac{1}{0.7}X`$) is on average larger.
 
 **Proof:** We perform a change of variables $`Y=d(X)`$. By definition,
 
@@ -298,7 +298,7 @@ Let $`\lambda = \lambda(t)`$ be some non-negative real-valued rate function of a
 Let $c(t)$ be the cumulative rate function, s.t.
 
 ```math
-\Lambda(t) = \int_0^t \lambda(s)ds
+\Lambda(t) = \int_0^t \lambda(s)\,ds
 ```
 With $`\lambda(t)`$ a non-negative real-valued function, the cumulative rate function is monotonically non-decreasing. It has an ordinary inverse only when it is strictly increasing; otherwise, we use the generalized inverse defined above.
 
@@ -363,7 +363,7 @@ Since we can sample the inter-event distances in the cumulative space with $\sim
 Algorithmically, this means:
 
 1. Sample $\Delta y_i$ from $\text{Exp}(1)$
-2. Calculate $y_i$ as $y_i = \Sigma_{i' = 1}^i \Delta y_{i'} $
+2. Calculate $y_i$ as $y_i = \sum_{i' = 1}^i \Delta y_{i'} $
 3. Invert $y_i$ to get $t_i$ through $t_i = d(y_i)$
 4. Calculate the inter event times $\Delta t_i = t_i - t_{i-1}$
 
