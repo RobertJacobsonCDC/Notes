@@ -159,7 +159,7 @@ At home, their total infectiousness would be $`2 \cdot r(t)`$. At work, it would
 
 **Proposal:** Schedule based on $`8 \cdot r(t)`$. Proceed as above.
 
-**Why use the maximum?** This is a thinning algorithm, so the scheduled forecast rate $`R(t)`$ must be an upper bound on the actual total infectiousness $`S(t)`$ at every possible attempt time. Only then is the acceptance probability $`S(t)/R(t)`$ between $`0`$ and $`1`$. Here the person could be at work, where $`S(t)=8r(t)`$, so $`R(t)=8r(t)`$ is a valid forecast. The expected rate $`(0.5\cdot2+0.5\cdot8)r(t)=5r(t)`$ is not valid when the person's location is unknown: if they are at work, it would require accepting with probability $`8r(t)/5r(t)=8/5>1`$.
+**Why use the maximum?** This is a thinning algorithm, so the scheduled forecast rate $`R(t)`$ must be an upper bound on the actual total infectiousness $`S(t)`$ at every possible attempt time. Only then is the acceptance probability $`S(t)/R(t)`$ between $`0`$ and $`1`$. Here, the person could be at work, where $`S(t)=8r(t)`$, so $`R(t)=8r(t)`$ is a valid forecast. The expected rate $`(0.5\cdot2+0.5\cdot8)r(t)=5r(t)`$ is not valid when the person's location is unknown: if they are at work, it would require accepting with probability $`8r(t)/5r(t)=8/5>1`$.
 
 More importantly, a forecast below the actual rate can omit attempts that should have occurred. Rejecting excess proposed attempts is safe; trying to create missing attempts later is not. If new information can increase the future actual rate above the current forecast, cancel the pending attempt and reschedule using a new upper-bound forecast.
 
@@ -238,7 +238,7 @@ The intrinsic infectiousness is at most 2, so the total infectiousness is at mos
 t=d(X)=
 \begin{cases}
 X/4, & 0\leq X\leq4,\\
-(X+4)/8, & 4<X\leq12.
+(X+4)/8, & 4<X\leq12. \\
 \end{cases}
 ```
 
