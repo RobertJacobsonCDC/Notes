@@ -51,9 +51,9 @@ t, & t \in [0, 2] \\
 \end{cases}
 ```
 
-A true inverse function of $\Lambda(t)$ does not exist on $[0,\infty)$ because $c(t)=2$ for every $t\geq2$. However, restricted to cumulative values $y\in[0,2]$, we can use $d(y)=y$. On this relevant range, $\Lambda(d(y))=y$; and for time values $t\in[0,2]$, $d(c(t))=t$.
+A true inverse function of $\Lambda(t)$ does not exist on $[0,\infty)$ because $\Lambda(t)=2$ for every $t\geq2$. However, restricted to cumulative values $y\in[0,2]$, we can use $d(y)=y$. On this relevant range, $\Lambda(d(y))=y$; and for time values $t\in[0,2]$, $d(\Lambda(t))=t$.
 
-Recall that inter event distances in the cumulative space can be sampled as $\Delta y_i \sim \text{Exp(1)}$. Iteratively sample $\Delta y_i$. Then the points in cumulative space are $\Delta y_1, \Delta y_1 + \Delta y_2, \Delta y_1 + \Delta y_2 + \Delta y_3, ...$, up to when they exceed 2 (the maximum value of $c(t)$, past which there is no valid inverse function). We'll call these $y_i$.
+Recall that inter event distances in the cumulative space can be sampled as $\Delta y_i \sim \text{Exp(1)}$. Iteratively sample $\Delta y_i$. Then the points in cumulative space are $\Delta y_1, \Delta y_1 + \Delta y_2, \Delta y_1 + \Delta y_2 + \Delta y_3, ...$, up to when they exceed 2 (the maximum value of $\Lambda(t)$, past which there is no valid inverse function). We'll call these $y_i$.
 
 Use $d(y)$ to map $y_i$ from the cumulative space back to the time space, i.e. $t_i = d(y_i)$. These are the forecasted times for infection events relative to the infection time of the infector. The inter event times can now be calculated as $\Delta t_i = t_i - t_{i-1}$.
 
