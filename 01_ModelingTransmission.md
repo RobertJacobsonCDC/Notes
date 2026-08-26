@@ -88,7 +88,7 @@ Each $y_i$ can be inverted with $d(t)$ to get $t_i = d(y_i)$.
 
 Then the inter event times can be calculated as $\Delta t_i = t_i - t_{i-1}$, where $t_0 = 0$ for the time of the zeroeth event.
 
-When an event causes the rate function to change after some time $t^{*}$, rather than rejecting events after $t^{*}$ with probability $30\%$, instead we re-evaluate what each value $y_i$ in the cumulative space maps to in the time space for events $t_i$ scheduled to happen after $t^{*}$. Since the rate function has changed after $t^{*}$, for those events we calculate $t_i$ with the inverse of the new cumulative rate function, $t_i = d^{*}(y_i)$, and calculate the inter event times as $\Delta t_i = t_{i} - t_{i-1}$. Reschedule events with the new event times.
+When an event causes the rate function to change after some time $`t^{*}`$, rather than rejecting events after $`t^{*}`$ with probability $30\%$, instead we re-evaluate what each value $y_i$ in the cumulative space maps to in the time space for events $t_i$ scheduled to happen after $`t^{*}`$. Since the rate function has changed after $`t^{*}`$, for those events we calculate $t_i$ with the inverse of the new cumulative rate function, $`t_i = d^{*}(y_i)`$, and calculate the inter event times as $\Delta t_i = t_{i} - t_{i-1}$. Reschedule events with the new event times.
 
 *Observation:*
 If the person took an antiviral that changes their new infectiousness, you could assume this is the person’s new intrinsic infectiousness. Sometimes, you may *have* to:
