@@ -33,7 +33,7 @@ Sample from a $`\text{Poisson}(2) \to n`$. Then sample $`n`$ times uniformly in 
 
 **Option 2:** Iteratively sample inter event times $`\Delta t_i \sim \text{Exp}(1)`$. Then the times are $`\Delta t_1, \Delta t_1 + \Delta t_2, \Delta t_1 + \Delta t_2 + \Delta t_3,\dots`$ up to when they exceed 2 (past which, our rate function says that no infection attempts are expected with a rate of 0).
 
-**Option 3**: Time scaling. We can sample the inter event times using the cumulative rate function $\Lambda(t)$. For rate function $r(t)$ (equivalent to the hazard function in this case)
+**Option 3**: Time scaling. We can sample the inter event times using the cumulative rate function $`\Lambda(t)`$. For rate function $`r(t)`$ (equivalent to the hazard function in this case)
 
 ```math
 r(t) = \begin{cases}
@@ -42,7 +42,7 @@ r(t) = \begin{cases}
 \end{cases}
 ```
 
-the cumulative rate function $\Lambda(t)$ is
+the cumulative rate function $`\Lambda(t)`$ is
 
 ```math
 \Lambda(t) = \begin{cases}
@@ -51,11 +51,11 @@ t, & t \in [0, 2] \\
 \end{cases}
 ```
 
-A true inverse function of $\Lambda(t)$ does not exist on $[0,\infty)$ because $\Lambda(t)=2$ for every $t\geq2$. However, restricted to cumulative values $y\in[0,2]$, we can use $d(y)=y$. On this relevant range, $\Lambda(d(y))=y$; and for time values $t\in[0,2]$, $d(\Lambda(t))=t$.
+A true inverse function of $`\Lambda(t)`$ does not exist on $`[0,\infty)`$ because $`\Lambda(t)=2`$ for every $`t\geq2`$. However, restricted to cumulative values $`y\in[0,2]`$, we can use $`d(y)=y`$. On this relevant range, $`\Lambda(d(y))=y`$; and for time values $`t\in[0,2]`$, $`d(\Lambda(t))=t`$.
 
-Recall that inter event distances in the cumulative space can be sampled as $\Delta y_i \sim \text{Exp(1)}$. Iteratively sample $\Delta y_i$. Then the points in cumulative space are $\Delta y_1, \Delta y_1 + \Delta y_2, \Delta y_1 + \Delta y_2 + \Delta y_3, ...$, up to when they exceed 2 (the maximum value of $\Lambda(t)$, past which there is no valid inverse function). We'll call these $y_i$.
+Recall that inter event distances in the cumulative space can be sampled as $`\Delta y_i \sim \text{Exp(1)}`$. Iteratively sample $`\Delta y_i`$. Then the points in cumulative space are $`\Delta y_1, \Delta y_1 + \Delta y_2, \Delta y_1 + \Delta y_2 + \Delta y_3, ...`$, up to when they exceed 2 (the maximum value of $`\Lambda(t)`$, past which there is no valid inverse function). We'll call these $`y_i`$.
 
-Use $d(y)$ to map $y_i$ from the cumulative space back to the time space, i.e. $t_i = d(y_i)$. These are the forecasted times for infection events relative to the infection time of the infector. The inter event times can now be calculated as $\Delta t_i = t_i - t_{i-1}$.
+Use $`d(y)`$ to map $`y_i`$ from the cumulative space back to the time space, i.e. $`t_i = d(y_i)`$. These are the forecasted times for infection events relative to the infection time of the infector. The inter event times can now be calculated as $`\Delta t_i = t_i - t_{i-1}`$.
 
 ### Observation:
 If we simulate from a Poisson process of rate $`r(t)`$, then the probability of having one event and the time of that event matches the intrinsic infectious process.
@@ -64,13 +64,13 @@ If we simulate from a Poisson process of rate $`r(t)`$, then the probability of 
 ## Rejection Sampling and Time Scaling
 
 Consider how to handle changes:
-Suppose at a random time $`t \in [0, 2]`$, this person will wear a perfect facemask.
+Suppose at a random time $`t \in [0, 2]`$, this person will wear a perfect face mask.
 
 ### Q: How does this change intrinsic transmissibility, and how do we simulate?
 
-**Option 1:** Rejection sample. You sample according to Option 2. Then at the time of the purported event, if it is after the facemask time $`t`$, you reject it (ignore it).
+**Option 1:** Rejection sample. You sample according to Option 2. Then at the time of the purported event, if it is after the face mask time $`t`$, you reject it (ignore it).
 
-What if the facemask isn’t perfect? Say it only prevents transmission 30% of the time.
+What if the face mask isn’t perfect? Say it only prevents transmission 30% of the time.
 
 **Answer:** You still schedule it normally, and then reject with probability 0.3.
 
@@ -80,15 +80,15 @@ This 30% is not the reduction in the probability of infecting a single contact. 
 This is called **Poisson thinning**: retaining each proposed event with probability $`0.7`$ changes the attempt rate from $`r(t)`$ to $`0.7r(t)`$.
 
 
-**Option 2**: Time scaling. Rather than sampling inter event times iteratively directly as $x_i\sim \text{Exp(1)}$ and summing $x_i$ to get event times, let's sample the inter event distances in the cumulative space as $\Delta y_i \sim \text{Exp(1)}$.
+**Option 2**: Time scaling. Rather than sampling inter event times iteratively directly as $`x_i\sim \text{Exp(1)}`$ and summing $x_i$ to get event times, let's sample the inter event distances in the cumulative space as $`\Delta y_i \sim \text{Exp(1)}`$.
 
-Then calculate $y_i = \Sigma_{i' = 1}^{i} \Delta y_{i'}$
+Then calculate $`y_i = \sum_{i' = 1}^{i} \Delta y_{i'}`$
 
-Each $y_i$ can be inverted with $d(t)$ to get $t_i = d(y_i)$.
+Each $`y_i`$ can be inverted with $`d(t)`$ to get $`t_i = d(y_i)`$.
 
-Then the inter event times can be calculated as $\Delta t_i = t_i - t_{i-1}$, where $t_0 = 0$ for the time of the zeroeth event.
+Then the inter event times can be calculated as $`\Delta t_i = t_i - t_{i-1}`$, where $`t_0 = 0`$ for the time of the zeroeth event.
 
-When an event causes the rate function to change after some time $`t^{*}`$, rather than rejecting events after $`t^{*}`$ with probability $`30\%`$, instead we re-evaluate what each value $y_i$ in the cumulative space maps to in the time space for events $t_i$ scheduled to happen after $`t^{*}`$. Since the rate function has changed after $`t^{*}`$, for those events we calculate $t_i$ with the inverse of the new cumulative rate function, $`t_i = d^{*}(y_i)`$, and calculate the inter event times as $\Delta t_i = t_{i} - t_{i-1}$. Reschedule events with the new event times.
+When an event causes the rate function to change after some time $`t^{*}`$, rather than rejecting events after $`t^{*}`$ with probability $`30\%`$, instead we re-evaluate what each value $y_i$ in the cumulative space maps to in the time space for events $t_i$ scheduled to happen after $`t^{*}`$. Since the rate function has changed after $`t^{*}`$, for those events we calculate $t_i$ with the inverse of the new cumulative rate function, $`t_i = d^{*}(y_i)`$, and calculate the inter event times as $`\Delta t_i = t_{i} - t_{i-1}`$. Reschedule events with the new event times.
 
 *Observation:*
 If the person took an antiviral that changes their new infectiousness, you could assume this is the person’s new intrinsic infectiousness. Sometimes, you may *have* to:
@@ -121,10 +121,10 @@ which interpolates between the two options.
 
 ## Modeling Transmission with Time-Varying Factors
 
-Suppose this person, who is in a house with 2 people, is going to wear a facemask at random times throughout the day.
+Suppose this person, who is in a house with 2 people, is going to wear a face mask at random times throughout the day.
 
 ### Claim:
-Let $`r(t)`$ be the intrinsic infectiousness for this person in the absence of any interventions. You schedule infections according to $`2^\alpha \cdot r(t)`$ and reject them with probability 0.3 if the person is wearing a facemask at that time and otherwise accept. This works because $`r(t) \mapsto 2^\alpha \cdot r(t)`$ is linear in $`r(t)`$.
+Let $`r(t)`$ be the intrinsic infectiousness for this person in the absence of any interventions. You schedule infections according to $`2^\alpha \cdot r(t)`$ and reject them with probability 0.3 if the person is wearing a face mask at that time and otherwise accept. This works because $`r(t) \mapsto 2^\alpha \cdot r(t)`$ is linear in $`r(t)`$.
 
 However, total infectiousness in this setting could be some function $`f_2(r(t))`$ for some arbitrary monotonic positive function. In this case, you would accept with probability:
 
@@ -252,9 +252,9 @@ For every finite proposed time in Case B, $`X=\Lambda(t)`$: $`X`$ is the cumulat
 2. For example, suppose the proposed time is $`t=0.5`$. If the person is at Home with only one other person present, then $`S(t)=1`$. The acceptance probability is $`1/8`$ in Case A and $`1/4`$ in Case B. If they are at Work with three other people present, then $`S(t)=3`$, giving acceptance probabilities $`3/8`$ and $`3/4`$, respectively.
 3. If the attempt is accepted, choose the setting and contact, then infect the contact if they are susceptible.
 
-### Q: What if people can wear a facemask?
+### Q: What if people can wear a face mask?
 
-Treat a facemask as a time-varying reduction in the actual infectiousness. For example, if it reduces transmission by a fraction $`e`$ whenever it is worn, replace $`S(t)`$ by
+Treat a face mask as a time-varying reduction in the actual infectiousness. For example, if it reduces transmission by a fraction $`e`$ whenever it is worn, replace $`S(t)`$ by
 
 ```math
 S_{\mathrm{mask}}(t)=(1-e)S(t)
@@ -314,9 +314,9 @@ To simulate a person's transmissions, either simulate a Poisson point process wi
 2. Sample $`K\sim\text{Poisson}(A)`$.
 3. Sample $`K`$ independent transmission times from density $`f(t)`$.
 
-### Worked Example: Negative-Binomial Infectiousness with a Facemask
+### Worked Example: Negative-Binomial Infectiousness with a Face mask
 
-Suppose a person's individual multiplier is $`A`$ and their baseline rate is $`A f(t)`$. They wear a facemask from time $`0.5`$ through time $`1.2`$, and the mask retains a fraction $`m=0.7`$ of the baseline transmission rate. Define
+Suppose a person's individual multiplier is $`A`$ and their baseline rate is $`A f(t)`$. They wear a face mask from time $`0.5`$ through time $`1.2`$, and the mask retains a fraction $`m=0.7`$ of the baseline transmission rate. Define
 
 ```math
 m(t)=
